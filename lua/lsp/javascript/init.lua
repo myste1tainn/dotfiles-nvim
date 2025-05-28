@@ -1,0 +1,1 @@
+require("lsp.javascript.setup")
