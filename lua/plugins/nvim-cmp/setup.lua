@@ -1,2 +1,0 @@
--- This file sets up the nvim-cmp plugin for autocompletion
--- Ensure you have nvim-cmp and its dependencies installed

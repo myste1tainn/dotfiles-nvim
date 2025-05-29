@@ -2,6 +2,7 @@ return {
 	"hrsh7th/nvim-cmp",
 	config = function()
 		local cmp = require("cmp")
+		local luasnip = require("luasnip")
 
 		cmp.setup({
 			snippet = {
@@ -19,12 +20,16 @@ return {
 				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()
+					elseif luasnip.expand_or_jumpable() then
+						luasnip.expand_or_jump()
 					else
 						fallback()
 					end
 				end, { "i", "s" }),
 				["<S-Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
+					if luasnip.jumpable(-1) then
+						luasnip.jump(-1)
+					elseif cmp.visible() then
 						cmp.select_prev_item()
 					else
 						fallback()
@@ -36,6 +41,17 @@ return {
 				["<C-e>"] = cmp.mapping.close(),
 				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 			},
+			formatting = {
+				format = function(entry, vim_item)
+					vim_item.menu = ({
+						nvim_lsp = "[LSP]",
+						luasnip = "[Snip]",
+						buffer = "[Buf]",
+						path = "[Path]",
+					})[entry.source.name]
+					return vim_item
+				end,
+			},
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
 				{ name = "buffer" },
@@ -45,7 +61,7 @@ return {
 				-- { name = 'ultisnips' }, -- For ultisnips users.
 				-- { name = 'snippy' }, -- For snippy users.
 			}, {
-				{ name = "buffer" },
+				-- { name = "buffer" },
 			}),
 		})
 

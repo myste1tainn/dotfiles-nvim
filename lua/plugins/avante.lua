@@ -8,13 +8,16 @@ return {
 			openai = {
 				model = "gpt-4o",
 			},
-			layout = {
-				default = "ide", -- options: "ide", "minimal"
-				width = 0.2, -- width of sidebar (float from 0 to 1)
-				position = "bottom", -- "left" or "right"
+			windows = {
+				position = "bottom",
 			},
 		})
-		require("plugins.avante.keymap")
+		local keymap = vim.keymap.set
+
+		keymap("n", "<leader>ac", ":AvanteChat<CR>", { desc = "Avante Chat" })
+		keymap("v", "<leader>ae", ":AvanteEdit<CR>", { desc = "Avante Edit" })
+		keymap("n", "<leader>at", ":AvanteToggle<CR>", { desc = "Avante Toggle" })
+		keymap("n", "<leader>aa", ":AvanteAsk<CR>", { desc = "Avante Ask" })
 	end,
 	build = "make",
 	event = "VeryLazy",

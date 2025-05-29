@@ -19,5 +19,6 @@ for lang, server in pairs(mason_servers) do
 	if lang == "lua" then
 		require("neodev").setup()
 	end
+	print("lsp setup", lang)
 	require("lspconfig")[server].setup(final_config)
 end
