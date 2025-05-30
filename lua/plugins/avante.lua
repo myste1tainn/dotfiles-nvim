@@ -1,12 +1,32 @@
 return {
 	"yetone/avante.nvim",
 	config = function()
+		---@diagnostic disable-next-line: missing-fields
 		require("avante").setup({
-			provider = "openai",
-			auto_suggestions_provider = "openai",
+			provider = "copilot",
+			auto_suggestions_provider = "copilot",
+			-- provider = "openai",
+			-- auto_suggestions_provider = "openai",
 			api_key = os.getenv("OPENAI_API_KEY"),
 			openai = {
-				model = "gpt-4o",
+				model = "gpt-4o-mini",
+				-- model = "gpt-4o",
+			},
+			dual_boost = {
+				enabled = true,
+				first_provider = "openai",
+				second_provider = "copilot",
+				prompt = "Based on the two reference outputs below, generate a response that incorporates elements from both but reflects your own judgment and unique perspective. Do not provide any explanation, just give the response directly. Reference Output 1: [{{provider1_output}}], Reference Output 2: [{{provider2_output}}]",
+				timeout = 60000, -- Timeout in milliseconds
+			},
+			behaviour = {
+				auto_suggestions = true, -- Experimental stage
+				auto_set_highlight_group = true,
+				auto_set_keymaps = true,
+				auto_apply_diff_after_generation = false,
+				support_paste_from_clipboard = true,
+				minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
+				enable_token_counting = true, -- Whether to enable token counting. Default to true.
 			},
 			windows = {
 				position = "bottom",
@@ -28,6 +48,9 @@ return {
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
 		"nvim-tree/nvim-web-devicons",
+		"hrsh7th/nvim-cmp",
+		"ibhagwan/fzf-lua",
+		"zbirenbaum/copilot.lua",
 		{
 			"MeanderingProgrammer/render-markdown.nvim",
 			opts = { file_types = { "markdown", "Avante" } },

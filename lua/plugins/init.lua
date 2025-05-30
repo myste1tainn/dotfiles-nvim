@@ -18,4 +18,5 @@ return {
 	{ import = "plugins.nvim-spectre" },
 	{ import = "plugins.vim-visual-multi" },
 	{ import = "plugins.comment" },
+	{ import = "plugins.copilot" },
 }

@@ -1,5 +1,8 @@
 return {
 	"hrsh7th/nvim-cmp",
+	dependencies = {
+		"zbirenbaum/copilot-cmp", -- Copilot integration
+	},
 	config = function()
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
@@ -54,6 +57,7 @@ return {
 			},
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
+				{ name = "copilot" },
 				{ name = "buffer" },
 				{ name = "path" },
 				-- { name = "vsnip" }, -- For vsnip users.

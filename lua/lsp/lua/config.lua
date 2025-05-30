@@ -8,7 +8,7 @@ return {
 				callSnippet = "Replace",
 			},
 			diagnostics = {
-				--     globals = { "vim" },
+				globals = { "vim" },
 			},
 			workspace = {
 				checkThirdParty = false,

@@ -14,6 +14,8 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 vim.g.VM_maps = {
 	["Find Under"] = "<M-e>",
 	["Find Subword Under"] = "<M-e>",
+	-- ["Find Under"] = "´",
+	-- ["Find Subword Under"] = "´",
 	["Add Cursor Down"] = "+",
 	["Add Cursor Up"] = "_",
 }
