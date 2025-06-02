@@ -7,10 +7,10 @@ return {
 				auto_trigger = true, -- automatically show suggestions while typing
 				debounce = 75,
 				keymap = {
-					accept = "<C-l>", -- or "<C-l>", "<M-]>",
-					next = "<Tab>",
-					prev = "<S-Tab>",
-					dismiss = "<Esc>",
+					accept = "<M-l>", -- or "<C-l>", "<M-]>",
+					next = "<M-,>",
+					prev = "<M-.>",
+					dismiss = "<M-e>",
 				},
 			},
 		})

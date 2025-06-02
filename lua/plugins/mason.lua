@@ -7,7 +7,7 @@ return {
 	},
 	opts = {},
 	config = function()
-		require("mason").setup()
+		require("mason").setup({})
 		-- Extract only the server names from the servers table
 		local servers = require("lsp.servers")
 		local server_names = {}
@@ -17,6 +17,7 @@ return {
 
 		require("mason-lspconfig").setup({
 			ensure_installed = server_names,
+			automatic_enable = false,
 		})
 
 		require("lspsaga").setup()

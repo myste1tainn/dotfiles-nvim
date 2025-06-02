@@ -20,7 +20,7 @@ return {
 				timeout = 60000, -- Timeout in milliseconds
 			},
 			behaviour = {
-				auto_suggestions = true, -- Experimental stage
+				auto_suggestions = false, -- Experimental stage
 				auto_set_highlight_group = true,
 				auto_set_keymaps = true,
 				auto_apply_diff_after_generation = false,
@@ -30,6 +30,18 @@ return {
 			},
 			windows = {
 				position = "bottom",
+			},
+			mappings = {
+				suggestion = {
+					accept = "<M-l>",
+					next = "<M-]>",
+					prev = "<M-[>",
+					dismiss = "<M-e>",
+				},
+			},
+			suggestion = {
+				debounce = 75,
+				throttle = 75,
 			},
 		})
 		local keymap = vim.keymap.set

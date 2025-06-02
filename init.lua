@@ -12,8 +12,8 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 ---- vim-visual-multi
 -- Set key bindings for vim-visual-multi
 vim.g.VM_maps = {
-	["Find Under"] = "<M-e>",
-	["Find Subword Under"] = "<M-e>",
+	["Find Under"] = "<M-v>",
+	["Find Subword Under"] = "<M-v>",
 	-- ["Find Under"] = "´",
 	-- ["Find Subword Under"] = "´",
 	["Add Cursor Down"] = "+",
