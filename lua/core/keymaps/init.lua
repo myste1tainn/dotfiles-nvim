@@ -3,6 +3,7 @@ require("core.keymaps.core")()
 require("core.keymaps.fzf-lua")()
 require("core.keymaps.nvim-spectre")()
 require("core.keymaps.overseer")()
+require("core.keymaps.toggleterm")()
 
 -- Keymaps that avaible with LSP active
 vim.api.nvim_create_autocmd("LspAttach", {
