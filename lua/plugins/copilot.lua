@@ -1,5 +1,6 @@
 return {
 	"zbirenbaum/copilot.lua",
+	event = "InsertEnter", -- Load when entering insert mode
 	-- NOTE: This is depended on by the nvim-cmp plugin, so no need to add cmp as a dependency here.
 	config = function()
 		require("copilot").setup({
@@ -9,8 +10,8 @@ return {
 				debounce = 75,
 				keymap = {
 					accept = "<M-l>", -- or "<C-l>", "<M-]>",
-					next = "<M-,>",
-					prev = "<M-.>",
+					next = "<M-.>",
+					prev = "<M-,>",
 					dismiss = "<M-e>",
 				},
 			},
