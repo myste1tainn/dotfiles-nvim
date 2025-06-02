@@ -17,7 +17,7 @@ return {
 				},
 				strikethrough = true, -- enable strikethrough
 				invert_selection = false, -- disable inverted selection
-				contrast = "hard", -- set contrast level to soft
+				contrast = "soft", -- set contrast level to soft
 				overrides = {}, -- custom overrides for specific highlight groups
 			})
 			vim.cmd([[colorscheme gruvbox]])

@@ -9,13 +9,13 @@ return {
 	config = function()
 		require("neo-tree").setup({
 			window = { position = "left", width = 30 },
-			buffers = { follow_current_file = { enabled = true } },
+			buffers = { follow_current_file = { enabled = false } },
 			filesystem = {
 				filtered_items = {
 					hide_dotfiles = false,
 					hide_gitignored = true,
 				},
-				follow_current_file = { enabled = true },
+				follow_current_file = { enabled = false },
 				use_libuv_file_watcher = true,
 			},
 			default_component_configs = {

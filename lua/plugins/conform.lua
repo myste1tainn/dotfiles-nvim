@@ -7,6 +7,8 @@ return {
 				python = { "black" },
 				lua = { "stylua" },
 				javascript = { "prettier" },
+				typescript = { "eslint" },
+				react = { "eslint" },
 				ruby = { "rubocop" },
 				dart = { "dartfmt" },
 			},

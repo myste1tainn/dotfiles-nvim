@@ -1,3 +1,4 @@
+-- TODO: After the refactor of certain plugins, this list should be updated to reflect the new structure.
 return {
 	{ import = "plugins.avante" },
 	{ import = "plugins.neo-tree" },

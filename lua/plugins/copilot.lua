@@ -1,5 +1,6 @@
 return {
 	"zbirenbaum/copilot.lua",
+	-- NOTE: This is depended on by the nvim-cmp plugin, so no need to add cmp as a dependency here.
 	config = function()
 		require("copilot").setup({
 			suggestion = {

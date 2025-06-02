@@ -10,6 +10,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 -- Import the list of servers from mason configuration
 local mason_servers = require("lsp.servers")
 
+-- TODO: Find a way to do this from within mason-lspconfig
 -- Setup each language server
 for lang, server in pairs(mason_servers) do
 	local config = require("lsp." .. lang .. ".config")
