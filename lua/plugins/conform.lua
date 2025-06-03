@@ -3,14 +3,26 @@ return {
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
-				go = { "gofmt" },
+				go = { "goimports" },
 				python = { "black" },
 				lua = { "stylua" },
-				javascript = { "prettier" },
-				typescript = { "eslint" },
-				react = { "eslint" },
 				ruby = { "rubocop" },
 				dart = { "dartfmt" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
+				json = { "prettier" },
+				html = { "prettier" },
+				css = { "prettier" },
+				markdown = { "prettier" },
+			},
+			formatters = {
+				prettier = {
+					command = "prettier",
+					args = { "--stdin-filepath", "$FILENAME" },
+					stdin = true,
+				},
 			},
 		})
 
