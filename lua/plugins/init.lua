@@ -20,4 +20,5 @@ return {
 	{ import = "plugins.vim-visual-multi" },
 	{ import = "plugins.comment" },
 	{ import = "plugins.copilot" },
+	{ import = "plugins.nvim-window-picker" },
 }
