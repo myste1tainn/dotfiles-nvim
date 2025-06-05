@@ -17,6 +17,23 @@ return {
 				},
 				follow_current_file = { enabled = false },
 				use_libuv_file_watcher = true,
+				window = {
+					mappings = {
+						["o"] = "system_open",
+					},
+				},
+			},
+			commands = {
+				-- NOTE: Disable because it wrong, the code itself is suggested by the plugin official page
+				---@diagnostic disable-next-line: redundant-parameter
+				system_open = function(state)
+					local node = state.tree:get_node()
+					if node.type == "directory" then
+						vim.fn.system("open " .. node.path)
+					else
+						vim.fn.system("open " .. vim.fn.fnameescape(node.path))
+					end
+				end,
 			},
 			default_component_configs = {
 				diagnostics = {
