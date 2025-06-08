@@ -2,15 +2,17 @@ return {
 	"hrsh7th/nvim-cmp",
 	dependencies = {
 		"zbirenbaum/copilot-cmp", -- Copilot integration
+		"hrsh7th/cmp-cmdline",
+		"hrsh7th/cmp-path",
 	},
 	config = function()
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
 
 		cmp.setup({
-			preselect = cmp.PreselectMode.None,
+			preselect = cmp.PreselectMode.Item, -- Preselect the first item in the completion menu
 			completion = {
-				completeopt = "menu,menuone,noinsert",
+				completeopt = "menu,menuone,noinsert,preview",
 			},
 			snippet = {
 				-- REQUIRED - you must specify a snippet engine
@@ -102,7 +104,13 @@ return {
 
 		-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 		cmp.setup.cmdline(":", {
-			mapping = cmp.mapping.preset.cmdline(),
+			mapping = cmp.mapping.preset.cmdline({
+				["<CR>"] = cmp.mapping.confirm({ select = true }),
+			}),
+			preselect = cmp.PreselectMode.Item,
+			completion = {
+				completeopt = "menu,menuone,preview",
+			},
 			sources = cmp.config.sources({
 				{ name = "path" },
 			}, {

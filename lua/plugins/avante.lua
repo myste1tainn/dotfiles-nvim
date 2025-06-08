@@ -8,9 +8,11 @@ return {
 			-- provider = "openai",
 			-- auto_suggestions_provider = "openai",
 			api_key = os.getenv("OPENAI_API_KEY"),
-			openai = {
-				model = "gpt-4o-mini",
-				-- model = "gpt-4o",
+			providers = {
+				openai = {
+					model = "gpt-4o-mini",
+					-- model = "gpt-4o",
+				},
 			},
 			dual_boost = {
 				enabled = true,

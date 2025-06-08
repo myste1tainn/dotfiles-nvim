@@ -4,6 +4,10 @@ return {
 		require("notify").setup({ background_colour = "#000000" })
 		---@diagnostic disable-next-line: missing-fields
 		require("noice").setup({
+			cmdline = {
+				enabled = true,
+				view = "cmdline_popup", -- NOT "cmdline_popup"
+			},
 			lsp = {
 				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
 				override = {
