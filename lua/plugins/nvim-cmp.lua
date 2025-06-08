@@ -8,6 +8,10 @@ return {
 		local luasnip = require("luasnip")
 
 		cmp.setup({
+			preselect = cmp.PreselectMode.None,
+			completion = {
+				completeopt = "menu,menuone,noinsert",
+			},
 			snippet = {
 				-- REQUIRED - you must specify a snippet engine
 				expand = function(args)
@@ -18,11 +22,11 @@ return {
 				end,
 			},
 			mapping = {
-				["<C-n>"] = cmp.mapping.select_next_item(),
-				["<C-p>"] = cmp.mapping.select_prev_item(),
+				["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+				["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
-						cmp.select_next_item()
+						cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
 					elseif luasnip.expand_or_jumpable() then
 						luasnip.expand_or_jump()
 					else
@@ -33,7 +37,7 @@ return {
 					if luasnip.jumpable(-1) then
 						luasnip.jump(-1)
 					elseif cmp.visible() then
-						cmp.select_prev_item()
+						cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
 					else
 						fallback()
 					end
@@ -42,7 +46,17 @@ return {
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
 				["<C-Space>"] = cmp.mapping.complete(),
 				["<C-e>"] = cmp.mapping.close(),
-				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+				["<CR>"] = cmp.mapping.confirm({ select = true }),
+
+				-- Accept Copilot suggestion even when cmp menu is open
+				["<M-l>"] = cmp.mapping(function(fallback)
+					local copilot = require("copilot.suggestion")
+					if copilot.is_visible() then
+						copilot.accept()
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
 			},
 			formatting = {
 				format = function(entry, vim_item)
