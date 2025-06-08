@@ -18,8 +18,8 @@ return function(bufnr)
 
 	-- Additional lspsaga keymaps
 	-- Diagnostic jump
-	keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
-	keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
+	keymap("n", "<M-p>", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
+	keymap("n", "<M-n>", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
 	-- Show line diagnostics
-	keymap("n", "<leader>e", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
+	keymap("n", "E", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
 end

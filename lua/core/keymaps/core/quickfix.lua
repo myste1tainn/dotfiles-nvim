@@ -25,7 +25,7 @@ return function(bufnr)
 	end, { desc = "Toggle Quickfix" })
 
 	-- Navigating between quickfix list
-	keymap({ "n", "v", "i" }, "<M-n>", function()
+	keymap({ "n", "v", "i" }, "<C-.>", function()
 		local current_idx = vim.fn.getqflist({ idx = 0 }).idx
 		local total_items = #vim.fn.getqflist()
 		if current_idx >= total_items then
@@ -35,7 +35,7 @@ return function(bufnr)
 			vim.cmd("cnext")
 		end
 	end, { desc = "Next Quickfix Item" })
-	keymap({ "n", "v", "i" }, "<M-p>", function()
+	keymap({ "n", "v", "i" }, "<C-,>", function()
 		local current_idx = vim.fn.getqflist({ idx = 0 }).idx
 		if current_idx <= 1 then
 			vim.notify("No previous quickfix items. Continuing from the bottom.", vim.log.levels.INFO)

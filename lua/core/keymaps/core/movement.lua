@@ -15,9 +15,9 @@ return function(bufnr)
 	-- † = <M-t>
 	keymap({ "n", "v", "i" }, "<M-t>", "<Esc><Cmd>tabnew<CR>", { desc = "New tab", silent = true })
 	-- “ = <M-[>
-	keymap({ "n", "v", "i" }, "<M-[>", "<Esc><Cmd>tabnext<CR>", { desc = "Next tab", silent = true })
+	keymap({ "n", "v", "i" }, "<M-[>", "<Esc><Cmd>tabprevious<CR>", { desc = "Next tab", silent = true })
 	-- ‘ = <M-]>
-	keymap({ "n", "v", "i" }, "<M-]>", "<Esc><Cmd>tabprevious<CR>", { desc = "Previous tab", silent = true })
+	keymap({ "n", "v", "i" }, "<M-]>", "<Esc><Cmd>tabnext<CR>", { desc = "Previous tab", silent = true })
 	keymap({ "t" }, "<M-t>", "<C-\\><C-n><Cmd>tabnew<CR>", { desc = "New tab", silent = true })
 	keymap({ "t" }, "<M-[>", "<C-\\><C-n><Cmd>tabnext<CR>", { desc = "Next tab", silent = true })
 	keymap({ "t" }, "<M-]>", "<C-\\><C-n><Cmd>tabprevious<CR>", { desc = "Previous tab", silent = true })

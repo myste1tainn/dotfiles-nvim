@@ -3,12 +3,7 @@ local keymap = vim.keymap.set
 return function(bufnr)
 	local toggle_command = "<Cmd>OverseerToggle<CR>"
 	-- Overseer uses
-	keymap(
-		{ "n", "v", "i" },
-		"<leader>r",
-		"<Esc><Cmd>OverseerRun<CR>" .. toggle_command,
-		{ desc = "Run Overseer Task", silent = true }
-	)
+	keymap({ "n", "v", "i" }, "<leader>r", "<Esc><Cmd>OverseerRun<CR>", { desc = "Run Overseer Task", silent = true })
 	keymap(
 		{ "n", "v", "i" },
 		"<leader>rr",
