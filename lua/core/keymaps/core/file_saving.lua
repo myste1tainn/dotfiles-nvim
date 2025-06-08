@@ -1,15 +1,10 @@
-local keymap = vim.keymap.set
+local keymap_util = require("utils.keymap")
 
 return function(bufnr)
 	-- Quit buffer, Save & Quit, Quit All, Save all & Quit
-	keymap({ "n", "v", "i" }, "<C-q>", "<Esc><Cmd>q<CR>", { desc = "Quit Buffer", silent = true })
-	keymap({ "n", "v", "i" }, "<C-a><C-q>", "<Esc><Cmd>qa<CR>", { desc = "Quit All", silent = true })
-	keymap({ "n", "v", "i" }, "<C-a><C-s>", "<Esc><Cmd>wa<CR>", { desc = "Save All", silent = true })
-	keymap({ "n", "v", "i" }, "<C-a><C-x>", "<Esc><Cmd>wqa<CR>", { desc = "Save All & Quit", silent = true })
-	keymap({ "n", "v", "i" }, "<C-s>", "<Esc><Cmd>wa<CR>", { desc = "Save", silent = true })
-	keymap({ "t" }, "<C-q>", "<C-\\><C-n><Cmd>q<CR>", { desc = "Quit Buffer", silent = true })
-	keymap({ "t" }, "<C-a><C-q>", "<C-\\><C-n><Cmd>qa<CR>", { desc = "Quit All", silent = true })
-	keymap({ "t" }, "<C-a><C-s>", "<C-\\><C-n><Cmd>wa<CR>", { desc = "Save All", silent = true })
-	keymap({ "t" }, "<C-a><C-x>", "<C-\\><C-n><Cmd>wqa<CR>", { desc = "Save All & Quit", silent = true })
-	keymap({ "t" }, "<C-s>", "<C-\\><C-n><Cmd>wa<CR>", { desc = "Save", silent = true })
+	keymap_util.map_for_all_and_terminal("<C-q>", "<Cmd>q<CR>", { desc = "Quit Buffer", silent = true })
+	keymap_util.map_for_all_and_terminal("<C-a><C-q>", "<Cmd>qa<CR>", { desc = "Quit All", silent = true })
+	keymap_util.map_for_all_and_terminal("<C-a><C-s>", "<Cmd>wa<CR>", { desc = "Save All", silent = true })
+	keymap_util.map_for_all_and_terminal("<C-a><C-x>", "<Cmd>wqa<CR>", { desc = "Save All & Quit", silent = true })
+	keymap_util.map_for_all_and_terminal("<C-s>", "<Cmd>wa<CR>", { desc = "Save", silent = true })
 end
