@@ -7,12 +7,13 @@ vim.diagnostic.config({
 
 vim.api.nvim_create_autocmd("DiagnosticChanged", {
 	callback = function()
+		local bufnr = vim.api.nvim_get_current_buf()
 		-- if there are no diagnostics, don't set it
-		local diagnostics = vim.diagnostic.get(0)
+		local diagnostics = vim.diagnostic.get(bufnr)
 		if #diagnostics == 0 then
 			return
 		end
-		vim.diagnostic.setqflist({ open = false })
+		vim.diagnostic.setqflist({ open = false }, bufnr)
 	end,
 })
 

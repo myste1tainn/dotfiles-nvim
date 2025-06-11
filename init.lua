@@ -37,6 +37,9 @@ require("lazy").setup("plugins")
 
 require("core.options")
 require("core.keymaps")
+require("core.auto_splits_resize").setup()
+-- vim.cmd([[colorscheme gruvbox]])
+vim.cmd([[colorscheme nordfox]])
 
 ---- Overseer
 -- Load project-local Overseer tasks from .nvim.lua

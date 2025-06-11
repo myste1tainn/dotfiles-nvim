@@ -4,7 +4,7 @@ return {
 	{ import = "plugins.neo-tree" },
 	{ import = "plugins.mason" },
 	{ import = "plugins.treesitter" },
-	{ import = "plugins.gruvbox" },
+	{ import = "plugins.themes" },
 	{ import = "plugins.overseer" },
 	{ import = "plugins.neotest" },
 	{ import = "plugins.nvim-cmp" },

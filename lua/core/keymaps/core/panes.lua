@@ -14,15 +14,17 @@ return function(bufnr)
 		local height = math.floor(vim.o.lines * 0.9)
 		local row = math.floor((vim.o.lines - height) / 2)
 		local col = math.floor((vim.o.columns - width) / 2)
-		local opts = {
+		local win = vim.api.nvim_open_win(buf, true, {
 			relative = "editor",
 			width = width,
 			height = height,
 			row = row,
 			col = col,
 			style = "minimal",
-		}
-		-- local win = vim.api.nvim_open_win(buf, true, opts)
+			border = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" },
+		})
+		vim.api.nvimwin_set_option(win, "number", true)
+		vim.api.nvim_win_set_option(win, "relativenumber", true)
 		vim.api.nvim_buf_set_option(buf, "modifiable", true)
 	end
 
