@@ -36,8 +36,8 @@ return {
 			mappings = {
 				suggestion = {
 					accept = "<M-l>",
-					next = "<M-]>",
-					prev = "<M-[>",
+					next = "<M-Right>",
+					prev = "<M-Left>",
 					dismiss = "<M-e>",
 				},
 			},

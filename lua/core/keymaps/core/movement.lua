@@ -7,8 +7,9 @@ return function(bufnr)
 	keymap_util.map_for_all_and_terminal("<M-j>", "<C-w>j", { desc = "Move to below split" })
 	keymap_util.map_for_all_and_terminal("<M-k>", "<C-w>k", { desc = "Move to above split" })
 	keymap_util.map_for_all_and_terminal("<M-t>", "<Cmd>tabnew<CR>", { desc = "New tab", silent = true })
-	keymap_util.map_for_all_and_terminal([[<C-[>]], "<Cmd>tabprevious<CR>", { desc = "Next tab", silent = true })
-	keymap_util.map_for_all_and_terminal([[<C-]>]], "<Cmd>tabnext<CR>", { desc = "Previous tab", silent = true })
+	-- TODO: This clashes with exit insert / terminal mode, so it is commented out for now, find a better solution
+	-- keymap_util.map_for_all_and_terminal([[<C-[>]], "<Cmd>tabprevious<CR>", { desc = "Next tab", silent = true })
+	-- keymap_util.map_for_all_and_terminal([[<C-]>]], "<Cmd>tabnext<CR>", { desc = "Previous tab", silent = true })
 	keymap_util.map_for_all_and_terminal(
 		"<M-[>",
 		"<Cmd>BufferLineCyclePrev<CR>",
@@ -19,4 +20,7 @@ return function(bufnr)
 		"<Cmd>BufferLineCycleNext<CR>",
 		{ desc = "BufferLine: Previous tab", silent = true }
 	)
+
+	vim.keymap.set("t", "<C-p>", "<Up>", { desc = "Movement Up for Terminal" })
+	vim.keymap.set("t", "<C-n>", "<Down>", { desc = "Movement Down for Terminal" })
 end

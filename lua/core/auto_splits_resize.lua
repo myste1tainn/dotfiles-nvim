@@ -9,7 +9,7 @@ function M.save_ratios()
 
 	for _, win in ipairs(wins) do
 		local cfg = vim.api.nvim_win_get_config(win)
-		if cfg.relative == "" then
+		if cfg.relative == "" and vim.api.nvim_win_get_option(win, 'statusline') == "" then
 			M.ratios[win] = {
 				width = vim.api.nvim_win_get_width(win) / total_cols,
 				height = vim.api.nvim_win_get_height(win) / total_lines,
@@ -43,7 +43,7 @@ function M.restore_ratios()
 	end)
 
 	for _, win in ipairs(wins) do
-		if vim.api.nvim_win_is_valid(win) and M.ratios[win] then
+		if vim.api.nvim_win_is_valid(win) and M.ratios[win] and vim.api.nvim_win_get_option(win, 'statusline') == "" then
 			local ratio = M.ratios[win]
 
 			local height = math.max(5, math.floor(total_lines * ratio.height))
