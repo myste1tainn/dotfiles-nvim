@@ -22,4 +22,5 @@ return {
 	{ import = "plugins.copilot" },
 	{ import = "plugins.nvim-window-picker" },
 	{ import = "plugins.whichkey" },
+	{ import = "plugins.notes" },
 }

@@ -4,9 +4,7 @@ vim.o.exrc = true -- allow project-local config
 vim.o.secure = true -- block risky calls in sandboxed mode
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = "Dockerfile*",
-	callback = function()
-		vim.bo.filetype = "dockerfile"
-	end,
+	callback = function() end,
 })
 
 ---- vim-visual-multi
@@ -56,5 +54,18 @@ vim.api.nvim_create_autocmd("VimEnter", {
 				print("Failed to load .nvim.lua:", templates)
 			end
 		end
+	end,
+})
+
+-- TODO: Find a way to hot reload Overseer templates, below does not work as expected
+-- Reload task templates on BufWritePost for .nvim.lua files
+vim.api.nvim_create_autocmd("BufWritePost", {
+	pattern = "*.nvim.lua",
+	callback = function()
+		vim.cmd("luafile %")
+		require("overseer").clear_task_cache()
+		require("overseer.template").cache = {} -- ⚠ force wipe
+		require("overseer.template").user_template_provider = nil -- if using user templates
+		vim.notify("Overseer templates reloaded", vim.log.levels.INFO)
 	end,
 })
