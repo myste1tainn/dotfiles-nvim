@@ -1,7 +1,7 @@
 local keymap_util = require("utils.keymap")
 
 return function(bufnr)
-	keymap_util.map_for_all_and_terminal("<M-0>", "<Cmd>messages<CR>", { desc = "Open Messages", silent = true })
+	keymap_util.map_for_all_and_terminal("<M-0>", "<Cmd>NoiceAll<CR>", { desc = "Open NoiceAll", silent = true })
 	keymap_util.map_for_all_and_terminal(
 		"<M-1>",
 		"<Cmd>Neotree toggle<CR>",
