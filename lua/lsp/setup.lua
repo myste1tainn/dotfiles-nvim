@@ -3,8 +3,11 @@
 -- Inform the linter that `vim` is a global variable provided by Neovim
 ---@diagnostic disable: undefined-global
 
+-- Enable inlay hints for all LSP servers
+vim.lsp.inlay_hint.enable()
 -- Default capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+capabilities.inlayHint = { dynamicRegistration = false }
 
 -- List of language servers and their specific configurations
 -- Import the list of servers from mason configuration
