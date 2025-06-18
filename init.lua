@@ -2,6 +2,10 @@ vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 vim.o.exrc = true -- allow project-local config
 vim.o.secure = true -- block risky calls in sandboxed mode
+vim.o.wrap = false
+-- NOTE: not sure yet if I'll need this to prevent warning messages
+-- set conceallevel to 2 for better link visibility
+-- vim.api.nvim_buf_set_option(bufnr, "conceallevel", 2)
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = "Dockerfile*",
 	callback = function() end,

@@ -21,5 +21,5 @@ return function(bufnr)
 	keymap("n", "<M-p>", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
 	keymap("n", "<M-n>", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
 	-- Show line diagnostics
-	keymap("n", "E", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
+	keymap("n", "<M-d>", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
 end

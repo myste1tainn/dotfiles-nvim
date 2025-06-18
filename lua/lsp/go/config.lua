@@ -10,8 +10,17 @@ return {
 		gopls = {
 			gofumpt = true,
 			usePlaceholders = true,
-			completeUnimported = true, -- <<< This is the key
+			completeUnimported = true,
 			staticcheck = true,
+			hints = {
+				assignVariableTypes = true,
+				compositeLiteralFields = true,
+				compositeLiteralTypes = true,
+				constantValues = true,
+				functionTypeParameters = true,
+				parameterNames = true,
+				rangeVariableTypes = true,
+			},
 		},
 	},
 }

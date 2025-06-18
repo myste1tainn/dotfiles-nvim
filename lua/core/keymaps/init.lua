@@ -5,6 +5,7 @@ require("core.keymaps.nvim-spectre")()
 require("core.keymaps.overseer")()
 require("core.keymaps.toggleterm")()
 require("core.keymaps.neogit")()
+require("core.keymaps.dap")()
 
 -- Keymaps that avaible with LSP active
 vim.api.nvim_create_autocmd("LspAttach", {
