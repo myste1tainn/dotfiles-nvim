@@ -66,11 +66,7 @@ return {
 		"hrsh7th/nvim-cmp",
 		"ibhagwan/fzf-lua",
 		"zbirenbaum/copilot.lua",
-		{
-			"MeanderingProgrammer/render-markdown.nvim",
-			opts = { file_types = { "markdown", "Avante" } },
-			ft = { "markdown", "Avante" },
-		},
+		"MeanderingProgrammer/render-markdown.nvim",
 		{
 			"HakonHarnes/img-clip.nvim",
 			event = "VeryLazy",

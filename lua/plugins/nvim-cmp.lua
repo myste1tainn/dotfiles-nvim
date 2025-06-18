@@ -4,6 +4,7 @@ return {
 		"zbirenbaum/copilot-cmp", -- Copilot integration
 		"hrsh7th/cmp-cmdline",
 		"hrsh7th/cmp-path",
+		"MeanderingProgrammer/render-markdown.nvim", -- Markdown rendering support
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -79,6 +80,7 @@ return {
 				{ name = "luasnip" }, -- For luasnip users.
 				-- { name = 'ultisnips' }, -- For ultisnips users.
 				-- { name = 'snippy' }, -- For snippy users.
+				{ name = "render-markdown" }, -- For markdown rendering
 			}, {
 				-- { name = "buffer" },
 			}),
