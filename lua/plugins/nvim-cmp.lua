@@ -47,11 +47,14 @@ return {
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
 				["<C-Space>"] = cmp.mapping.complete(),
-				["<C-e>"] = cmp.mapping.close(),
+				-- ["<C-e>"] = cmp.mapping.close(),
+				-- Now using <C-e> to accept copilot suggestions, so we need to change this
+				["<C-[>"] = cmp.mapping.close(),
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 
 				-- Accept Copilot suggestion even when cmp menu is open
-				["<M-l>"] = cmp.mapping(function(fallback)
+				-- ["<M-l>"] = cmp.mapping(function(fallback)
+				["<C-e>"] = cmp.mapping(function(fallback)
 					local copilot = require("copilot.suggestion")
 					if copilot.is_visible() then
 						copilot.accept()

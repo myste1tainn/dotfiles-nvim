@@ -1,7 +1,16 @@
 local keymap = vim.keymap.set
 local M = {}
 
-function M.map_for_all_and_terminal(keys, fn_or_cmd, opts)
+function M.map_for_all_and_terminal(topts, fn_or_cmd, opts)
+	local keys = nil
+	local modes = { "n", "v", "i" }
+	if type(topts) == "string" then
+		keys = topts
+	elseif type(topts) == "table" then
+		keys = topts.keys
+		modes = topts.modes
+	end
+
 	local fn1, fn2 = nil, nil
 	if type(fn_or_cmd) == "function" then
 		fn1 = function()
@@ -19,7 +28,7 @@ function M.map_for_all_and_terminal(keys, fn_or_cmd, opts)
 		fn1 = "<Esc>" .. fn_or_cmd
 		fn2 = "<C-\\><C-n>" .. fn_or_cmd
 	end
-	keymap({ "n", "v", "i" }, keys, fn1, opts)
+	keymap(modes, keys, fn1, opts)
 	keymap({ "t" }, keys, fn2, opts)
 end
 

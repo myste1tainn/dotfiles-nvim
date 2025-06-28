@@ -5,4 +5,7 @@ return {
 	lua = "lua_ls",
 	javascript = "ts_ls",
 	ruby = "solargraph",
+	java = "jdtls",
+	groovy = "groovyls",
+	xml = "lemminx",
 }

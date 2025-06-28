@@ -4,6 +4,7 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		"neovim/nvim-lspconfig",
 		"glepnir/lspsaga.nvim",
+		"mfussenegger/nvim-jdtls",
 	},
 	opts = {},
 	config = function()

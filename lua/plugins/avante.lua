@@ -1,3 +1,4 @@
+local panes_util = require("utils.panes")
 return {
 	"yetone/avante.nvim",
 	config = function()
@@ -36,8 +37,8 @@ return {
 			mappings = {
 				suggestion = {
 					accept = "<M-l>",
-					next = "<M-Right>",
-					prev = "<M-Left>",
+					next = "<M-.>",
+					prev = "<M-,>",
 					dismiss = "<M-e>",
 				},
 			},
@@ -51,7 +52,27 @@ return {
 		keymap("n", "<leader>ac", "<Esc><Cmd>AvanteChat<CR>", { desc = "Avante Chat" })
 		keymap("v", "<leader>ae", "<Esc><Cmd>AvanteEdit<CR>", { desc = "Avante Edit" })
 		keymap("n", "<leader>at", "<Esc><Cmd>AvanteToggle<CR>", { desc = "Avante Toggle" })
-		keymap("n", "<M-3>", "<Esc><Cmd>AvanteToggle<CR>", { desc = "Avante Toggle" })
+		-- keymap("n", "<M-5>", "<Esc><Cmd>AvanteToggle<CR>", { desc = "Avante Toggle" })
+		keymap("n", "<M-5>", function()
+			panes_util.toggle_pane({
+				pane_open_predicate = {
+					-- TODO: Because `Avante` window is on the bottom "left" of the screen
+					--       It will always be hit first in the loop, causing `win` parameter below to be that
+					--       Need to find a way to make it (1) selectable which win will be there from this list
+					--       or (2) sends array of wins instead just one win
+					filetype = { "AvanteSelectedFiles", "Avante", "AvanteInput" },
+				},
+				on_pane_is_being_focused = function(win)
+					vim.cmd("AvanteToggle")
+				end,
+				on_pane_existed = function(win)
+					vim.api.nvim_set_current_win(win.winid)
+				end,
+				on_pane_not_existed = function()
+					vim.cmd("AvanteToggle")
+				end,
+			})
+		end, { desc = "Avante Toggle" })
 		keymap("n", "<leader>aa", "<Esc><Cmd>AvanteAsk<CR>", { desc = "Avante Ask" })
 	end,
 	build = "make",

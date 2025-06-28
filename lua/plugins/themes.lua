@@ -76,6 +76,13 @@ return {
 		name = "nightfox",
 		lazy = true,
 		priority = 1000,
+		config = function()
+			require("nightfox").setup({
+				options = {
+					modules = { bufferline = true },
+				},
+			})
+		end,
 	},
 	{
 		"connorholyday/vim-snazzy",

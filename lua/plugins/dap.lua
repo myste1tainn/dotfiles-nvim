@@ -73,12 +73,62 @@ return {
 				config = function()
 					require("nvim-dap-virtual-text").setup({
 						commented = true,
+						display_callback = function(variable, _buf, _stackframe, _node, opts)
+							local function strip_import_paths(str)
+								repeat
+									-- Match [...]/SomePkg.Type or [...]/SomePkg.Func
+									str, n = str:gsub("([_%w%.%-]+)/([A-Za-z_][%w_]*%.[A-Za-z_][%w_]*)", "%2")
+								until n == 0
+								return str
+							end
+
+							-- TODO: Get rid of this once you confirm that the above function works reliably in all cases
+							-- local function strip_import_paths(str)
+							-- 	-------------------------------------------------------------
+							-- 	-- 1. Hide anything wrapped in double quotes so we never
+							-- 	--    touch URLs, JSON strings, etc.
+							-- 	-------------------------------------------------------------
+							-- 	local protected, i = {}, 0
+							-- 	str = str:gsub('"(.-)"', function(q)
+							-- 		i = i + 1
+							-- 		protected[i] = q -- remember original text
+							-- 		return ("__Q%d__"):format(i) -- placeholder
+							-- 	end)
+							--
+							-- 	-------------------------------------------------------------
+							-- 	-- 2. Remove path prefixes *outside* quotes
+							-- 	--    Pattern:  foo/bar/baz.Type  ➜  baz.Type
+							-- 	-------------------------------------------------------------
+							-- 	repeat
+							-- 		str, n = str:gsub("([_%w%.%-]+)/([_%w%.%-]+%.[A-Za-z_][%w_]*)", "%2")
+							-- 	until n == 0
+							--
+							-- 	-------------------------------------------------------------
+							-- 	-- 3. Put the quoted text back
+							-- 	-------------------------------------------------------------
+							-- 	str = str:gsub("__Q(%d+)__", function(idx)
+							-- 		return '"' .. protected[tonumber(idx)] .. '"'
+							-- 	end)
+							--
+							-- 	return str
+							-- end
+
+							local val = strip_import_paths(variable.value)
+
+							if opts.virt_text_pos == "inline" then -- inline mode
+								return " = " .. val
+							else -- eol mode
+								return variable.name .. " = " .. val
+							end
+						end,
 					})
 				end,
 			},
 		},
 		config = function()
 			local dap = require("dap")
+			require("dap").set_log_level("TRACE") -- DAP log
+
 			-- Go adapter configuration
 			dap.adapters.go = function(callback, config)
 				print("dap.adapters.go got triggered with config:", vim.inspect(config))

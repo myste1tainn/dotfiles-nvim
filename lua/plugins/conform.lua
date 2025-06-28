@@ -16,6 +16,10 @@ return {
 				html = { "prettier" },
 				css = { "prettier" },
 				markdown = { "prettier" },
+				sh = { "beautysh" },
+				bash = { "beautysh" },
+				zsh = { "beautysh" },
+				java = { "google-java-format" },
 			},
 			formatters = {
 				prettier = {

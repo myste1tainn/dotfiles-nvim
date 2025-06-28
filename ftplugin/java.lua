@@ -1,0 +1,20 @@
+-- local jdtls = require("jdtls")
+--
+-- local root = jdtls.setup.find_root({
+-- 	"pom.xml",
+-- 	"build.gradle",
+-- 	".git",
+-- })
+-- if not root then
+-- 	return
+-- end -- stop if we opened a stray .java file
+--
+-- jdtls.start_or_attach({
+-- 	cmd = { "jdtls" }, -- installed via Mason or system-wide
+-- 	root_dir = root,
+-- 	settings = { java = {} },
+-- 	init_options = {
+-- 		-- enable code lenses for test & debug if you like
+-- 		extendedClientCapabilities = jdtls.extendedClientCapabilities,
+-- 	},
+-- })

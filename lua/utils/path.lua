@@ -4,7 +4,8 @@ local M = {}
 function M.get_root_with_pattern(root_pattern)
 	-- 1. Try LSP root for current buffer
 	local bufnr = vim.api.nvim_get_current_buf()
-	local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+	local clients = vim.lsp.get_clients({ bufnr = bufnr })
+	-- local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
 
 	for _, client in ipairs(clients) do
 		local workspace = client.config.root_dir
@@ -44,6 +45,10 @@ function M.convert_to_relative_path(prefix)
 		local final_prefix = prefix or vim.fn.getcwd()
 		local function remove_preifx(path)
 			if path:sub(1, #final_prefix) == final_prefix then
+				local p = path:sub(#final_prefix + 1) -- +1 to remove the trailing slash
+				if p == "" then
+					return "." -- Return current directory if the path is just the prefix
+				end
 				return path:sub(#final_prefix + 2) -- +2 to remove the trailing slash
 			else
 				return path -- Return as is if not under prefix

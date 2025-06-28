@@ -1,8 +1,45 @@
+-- TODO: LuaRocks loader not found fix this later so that I will not need the script below it
+-- local ok, result = pcall(require, "luarocks.loader")
+-- print("LuaRocks loader status:", ok, result)
+
+-- Load LuaRocks paths manually
+local function add_luarocks_paths()
+	local home = os.getenv("HOME")
+	local paths = {
+		home .. "/.luarocks/share/lua/5.1/?.lua",
+		home .. "/.luarocks/share/lua/5.1/?/init.lua",
+		home .. "/.luarocks/lib/lua/5.1/?.so",
+	}
+
+	for _, path in ipairs(paths) do
+		if not string.find(package.path, path, 1, true) then
+			package.path = package.path .. ";" .. path
+		end
+		if not string.find(package.cpath, path, 1, true) then
+			package.cpath = package.cpath .. ";" .. path
+		end
+	end
+end
+
+add_luarocks_paths()
+
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
+vim.opt.list = true
+-- Optional: customise how they look
+vim.opt.listchars = {
+	tab = "▸ ", -- “▸␉” is also popular
+	trail = "·",
+	space = "·",
+	extends = "⟩",
+	precedes = "⟨",
+	nbsp = "␣",
+}
 vim.o.exrc = true -- allow project-local config
 vim.o.secure = true -- block risky calls in sandboxed mode
 vim.o.wrap = false
+vim.o.maxmempattern = 5000 -- Max mem pattern for searches, Neogit seems to have problem with the default 1000, so set it to 5000
+vim.o.laststatus = 3 -- Always show a global statusline at the bottom
 -- NOTE: not sure yet if I'll need this to prevent warning messages
 -- set conceallevel to 2 for better link visibility
 -- vim.api.nvim_buf_set_option(bufnr, "conceallevel", 2)
@@ -42,6 +79,11 @@ require("core.keymaps")
 require("core.auto_splits_resize").setup()
 -- vim.cmd([[colorscheme gruvbox]])
 vim.cmd([[colorscheme nordfox]])
+-- Pick a subtle colour from your palette
+-- local grey = "#586875"
+--
+-- vim.api.nvim_set_hl(0, "Whitespace", { fg = grey, nocombine = true })
+-- vim.api.nvim_set_hl(0, "NonText", { fg = grey, nocombine = true })
 
 ---- Overseer
 -- Load project-local Overseer tasks from .nvim.lua

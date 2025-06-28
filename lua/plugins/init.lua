@@ -25,4 +25,11 @@ return {
 	{ import = "plugins.whichkey" },
 	{ import = "plugins.obsidian" },
 	{ import = "plugins.markdown" },
+	{ import = "plugins.trouble" },
+	{ import = "plugins.aerial" },
+
+	-- Windows, Panes, Splits, Buffers Management
+	{ import = "plugins.windows" },
+	{ import = "plugins.edgy" },
+	{ import = "plugins.bufresize" },
 }

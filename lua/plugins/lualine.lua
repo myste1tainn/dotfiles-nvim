@@ -11,8 +11,9 @@ return {
 		require("lualine").setup({
 			options = {
 				-- theme = 'gruvbox',
-				section_separators = "",
+				section_separators = "|",
 				component_separators = "",
+				globalstatus = true, -- Show global statusline
 			},
 			sections = {
 				lualine_x = {

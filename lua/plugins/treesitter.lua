@@ -17,16 +17,16 @@ return {
 					enable = true,
 				},
 				-- NOTE: Commented out to avoid conflicts with mini.ai
-				-- textobjects = {
-				-- 	select = {
-				-- 		enable = true,
-				-- 		lookahead = true,
-				-- 		keymaps = {
-				-- 			["af"] = "@function.outer",
-				-- 			["if"] = "@function.inner",
-				-- 		},
-				-- 	},
-				-- },
+				textobjects = {
+					select = {
+						enable = true,
+						lookahead = true,
+						keymaps = {
+							["af"] = "@function.outer",
+							["if"] = "@function.inner",
+						},
+					},
+				},
 			})
 		end,
 	},

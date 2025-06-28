@@ -9,7 +9,12 @@ return {
 				auto_trigger = true, -- automatically show suggestions while typing
 				debounce = 75,
 				keymap = {
-					accept = "<M-l>", -- or "<C-l>", "<M-]>",
+					-- accept = "<M-l>", -- or "<C-l>", "<M-]>",
+					-- <M-l> was my original key, but then I found out that <C-e> is end-of-line in terminol mode
+					-- And I now I used that to accept zsh-suggestions, the copilot suggestion UX/UI seems the same,
+					-- So to retain the same UX/UI, I use <C-e> to accept copilot suggestions
+					-- But then again, this key is conflicting with the default "cancel" key in nvim-cmp, so I need to configure that too
+					accept = "<C-e>",
 					next = "<M-.>",
 					prev = "<M-,>",
 					dismiss = "<M-e>",
