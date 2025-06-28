@@ -68,9 +68,15 @@ return {
 				-- TODO: make this component common in go templates, along with cwd below
 				{
 					"on_output_quickfix",
-					errorformat = "%f:%l:%c: %m",
-					set_diagnostic = true,
-					use_diagnostic = false,
+					-- errorformat = "%f:%l%*[^:]", -- TODO: Error format seems to format stuffs also, and it's ugly, deal with it later
+					-- Remove the default errorformat override and define your own:
+					errorformat = table.concat({
+						-- Match Go stacktrace lines (filename:line)
+						"%f:%l: %m",
+						-- Match shortened relative paths (e.g., pkg/foo.go|12|)
+						"%f|%l| %m",
+						-- Don't match timestamps like `2025/06/25 00:00:05` accidentally
+					}, ","),
 					open = true,
 				},
 			},
