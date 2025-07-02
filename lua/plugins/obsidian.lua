@@ -8,7 +8,8 @@ local opts = {
 keymap({ "n", "v", "i" }, "<M-e>", "<Esc>:ObsidianOpen ", opts)
 keymap({ "n", "v", "i" }, "<M-o>", "<Esc>:ObsidianNew ", opts)
 keymap({ "n", "v", "i" }, "<M-u>", "<Esc>:ObsidianNewFromTemplate ", opts)
-keymap({ "n", "v" }, "<C-e>", "<Cmd>ObsidianExtractNote<CR>", opts)
+-- TODO: Find a non-conflicting keymap for this
+-- keymap({ "n", "v" }, "<C-e>", "<Cmd>ObsidianExtractNote<CR>", opts)
 -- linking and navigation management
 keymap("n", "gt", ":ObsidianTags ", opts)
 

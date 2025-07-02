@@ -1,5 +1,20 @@
 local keymap = vim.keymap.set
 local markdown_fns = require("user.markdown.functions")
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "Avante" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.linebreak = true
+		vim.opt_local.textwidth = 0
+		vim.opt_local.formatoptions:append("t")
+
+		-- TODO: AutolistTab have this problem where it will not pushed the first character of the line, so moving it to just markdown & Avante first, until I know how to fix it
+		keymap("i", "<Tab>", "<cmd>AutolistTab<cr>", { desc = "Autolist Tab", silent = true })
+		keymap("i", "<S-Tab>", "<cmd>AutolistShiftTab<cr>", { desc = "Autolist Shift Tab", silent = true })
+		-- keymap("i", "<c-t>", "<c-t><cmd>AutolistRecalculate<cr>") -- an example of using <c-t> to indent
+	end,
+})
+
 return {
 	"MeanderingProgrammer/render-markdown.nvim",
 	ft = { "markdown", "Avante" },
@@ -41,9 +56,6 @@ return {
 			config = function()
 				require("autolist").setup()
 
-				keymap("i", "<tab>", "<cmd>AutolistTab<cr>", { desc = "Autolist Tab", silent = true })
-				keymap("i", "<s-tab>", "<cmd>AutolistShiftTab<cr>", { desc = "Autolist Shift Tab", silent = true })
-				-- keymap("i", "<c-t>", "<c-t><cmd>AutolistRecalculate<cr>") -- an example of using <c-t> to indent
 				keymap("i", "<CR>", "<CR><cmd>AutolistNewBullet<cr>", { desc = "Autolist New Bullet", silent = true })
 				keymap("n", "o", "o<cmd>AutolistNewBullet<cr>", { desc = "Autolist New Bullet", silent = true })
 				keymap(
