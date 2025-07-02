@@ -36,17 +36,29 @@ return {
 	end,
 	builder = function(params)
 		state.set_last_params(template_name, params)
+		local TailQF = {
+			constructor = function(params)
+				local base = require("overseer.component.on_output_quickfix").constructor(vim.tbl_extend("force", {
+					tail = true, -- stream incrementally
+					items_only = true, -- skip non-matches early
+				}, params or {}))
+				base.on_pre_result = function() end -- disable big final parse
+				return base
+			end,
+		}
 		local components = {
 			"default",
 			-- TODO: make this component common in go templates, along with cwd below
-			{
-				"on_output_quickfix",
-				-- errorformat = "%f:%l%*[^:]", -- TODO: Error format seems to format stuffs also, and it's ugly, deal with it later
-				-- Remove the default errorformat override and define your own:
-				errorformat = table.concat({
-					"%f:%l %m",
-				}, ","),
-			},
+			-- {
+			-- 	"on_output_quickfix",
+			-- 	-- errorformat = "%f:%l%*[^:]", -- TODO: Error format seems to format stuffs also, and it's ugly, deal with it later
+			-- 	-- Remove the default errorformat override and define your own:
+			-- 	errorformat = table.concat({
+			-- 		"%f:%l %m",
+			-- 	}, ","),
+			-- },
+			-- TODO: Update this qf.tail component to process the output in background, so it doesn't block the UI
+			-- { "qf.tail" },
 		}
 		if params.debug then
 			vim.defer_fn(function()
@@ -83,6 +95,7 @@ return {
 			}
 		else
 			return {
+				strategy = "jobstart",
 				name = "Run " .. params.file .. " in " .. params.root,
 				cmd = { "go" },
 				args = {

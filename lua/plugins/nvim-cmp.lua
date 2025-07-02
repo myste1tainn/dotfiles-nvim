@@ -34,21 +34,19 @@ return {
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
+				end, { "i", "s", "c" }),
 				["<C-p>"] = cmp.mapping(function(fallback)
-					if luasnip.jumpable(-1) then
-						luasnip.jump(-1)
-					elseif cmp.visible() then
+					if cmp.visible() then
 						cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+					elseif luasnip.jumpable(-1) then
+						luasnip.jump(-1)
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
+				end, { "i", "s", "c" }),
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
 				["<C-Space>"] = cmp.mapping.complete(),
-				-- ["<C-e>"] = cmp.mapping.close(),
-				-- Now using <C-e> to accept copilot suggestions, so we need to change this
 				["<C-[>"] = cmp.mapping.close(),
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 
@@ -58,10 +56,12 @@ return {
 					local copilot = require("copilot.suggestion")
 					if copilot.is_visible() then
 						copilot.accept()
+					elseif cmp.visible() then
+						cmp.close()
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
+				end, { "i", "s", "c" }),
 			},
 			formatting = {
 				format = function(entry, vim_item)
