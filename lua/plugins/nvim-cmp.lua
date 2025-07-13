@@ -2,18 +2,46 @@ return {
 	"hrsh7th/nvim-cmp",
 	dependencies = {
 		"zbirenbaum/copilot-cmp", -- Copilot integration
-		"hrsh7th/cmp-cmdline",
+		{ "hrsh7th/cmp-cmdline", lazy = false },
 		"hrsh7th/cmp-path",
 		"MeanderingProgrammer/render-markdown.nvim", -- Markdown rendering support
+		{
+			"petertriho/cmp-git",
+			event = "VeryLazy",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"nvim-telescope/telescope.nvim",
+			},
+			config = function() end,
+		}, -- Git integration for completion
 	},
 	config = function()
 		local cmp = require("cmp")
+		local compare = cmp.config.compare -- helper that exposes all built-ins
 		local luasnip = require("luasnip")
 
+		require("cmp_git").setup({
+			filetypes = { "gitcommit", "gitrebase" },
+		})
+
 		cmp.setup({
-			preselect = cmp.PreselectMode.Item, -- Preselect the first item in the completion menu
+			preselect = cmp.PreselectMode.None, -- Preselect the first item in the completion menu
 			completion = {
-				completeopt = "menu,menuone,noinsert,preview",
+				completeopt = "menu,menuone,preview",
+			},
+			sorting = {
+				priority_weight = 2, -- bigger number ↔ later comparators hurt less
+				comparators = {
+					compare.offset, -- start-of-word matches win
+					compare.exact, -- exact prefix wins
+					compare.score, -- LSP / source fuzzy score
+					compare.recently_used, -- what you confirmed before
+					compare.locality, -- identifiers closer to the cursor
+					compare.kind, -- functions > variables > snippets … (optional)
+					compare.sort_text, -- fallback to server-provided sortText
+					compare.length, -- shorter names win if still tied
+					compare.order, -- final deterministic tie-break
+				},
 			},
 			snippet = {
 				-- REQUIRED - you must specify a snippet engine
@@ -47,7 +75,6 @@ return {
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
 				["<C-Space>"] = cmp.mapping.complete(),
-				["<C-[>"] = cmp.mapping.close(),
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 
 				-- Accept Copilot suggestion even when cmp menu is open
@@ -57,6 +84,13 @@ return {
 					if copilot.is_visible() then
 						copilot.accept()
 					elseif cmp.visible() then
+						cmp.close()
+					else
+						fallback()
+					end
+				end, { "i", "s", "c" }),
+				["<C-[>"] = cmp.mapping(function(fallback)
+					if cmp.visible() then
 						cmp.close()
 					else
 						fallback()
@@ -90,9 +124,9 @@ return {
 		})
 
 		-- Set configuration for specific filetype.
-		cmp.setup.filetype("gitcommit", {
+		cmp.setup.filetype({ "gitcommit", "gitrebase" }, {
 			sources = cmp.config.sources({
-				{ name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
+				{ name = "git" },
 			}, {
 				{ name = "buffer" },
 			}),
@@ -108,10 +142,10 @@ return {
 
 		-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 		cmp.setup.cmdline(":", {
+			preselect = cmp.PreselectMode.None,
 			mapping = cmp.mapping.preset.cmdline({
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 			}),
-			preselect = cmp.PreselectMode.Item,
 			completion = {
 				completeopt = "menu,menuone,preview",
 			},
