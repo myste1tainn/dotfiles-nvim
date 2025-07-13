@@ -3,11 +3,12 @@ local opts = {
 	noremap = true,
 	silent = true,
 }
+-- TODO: These confilcts with some of the movement and emacs keymaps, so they are commented out for now
 -- NOTE: These are keymaps that can be used outside of Obsidian.nvim
 -- note management
-keymap({ "n", "v", "i" }, "<M-e>", "<Esc>:ObsidianOpen ", opts)
-keymap({ "n", "v", "i" }, "<M-o>", "<Esc>:ObsidianNew ", opts)
-keymap({ "n", "v", "i" }, "<M-u>", "<Esc>:ObsidianNewFromTemplate ", opts)
+-- keymap({ "n", "v", "i" }, "<M-e>", "<Esc>:ObsidianOpen ", opts)
+-- keymap({ "n", "v", "i" }, "<M-o>", "<Esc>:ObsidianNew ", opts)
+-- keymap({ "n", "v", "i" }, "<M-u>", "<Esc>:ObsidianNewFromTemplate ", opts)
 -- TODO: Find a non-conflicting keymap for this
 -- keymap({ "n", "v" }, "<C-e>", "<Cmd>ObsidianExtractNote<CR>", opts)
 -- linking and navigation management
