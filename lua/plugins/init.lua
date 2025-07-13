@@ -12,15 +12,10 @@ return {
 	{ import = "plugins.lualine" },
 	{ import = "plugins.noice" },
 	{ import = "plugins.neogit" },
-	-- { import = "plugins.vim-surround" }, -- NOTE: Replaced by mini.surround
-	-- { import = "plugins.vim-repeat" }, -- NOTE: Replaced by mini.surround
 	{ import = "plugins.mini" },
-	-- { import = "plugins.nvim-autopairs" }, -- NOTE: Replaced by mini.pairs
-	-- { import = "plugins.fzf-lua" },
 	{ import = "plugins.telescope" },
 	{ import = "plugins.nvim-spectre" },
 	{ import = "plugins.vim-visual-multi" },
-	-- { import = "plugins.comment" }, -- NOTE: Replaced by mini.comment
 	{ import = "plugins.copilot" },
 	{ import = "plugins.nvim-window-picker" },
 	{ import = "plugins.whichkey" },
@@ -31,8 +26,8 @@ return {
 	{ import = "plugins.lsp_signature" },
 
 	-- Windows, Panes, Splits, Buffers Management
-	-- { import = "plugins.windows" },
-	-- { import = "plugins.edgy" },
-	-- { import = "plugins.bufresize" },
+	{ import = "plugins.windows" },
+	{ import = "plugins.edgy" },
+	{ import = "plugins.bufresize" },
 	{ import = "plugins.gitsigns" },
 }

@@ -91,7 +91,7 @@ return {
 		"MunifTanjim/nui.nvim",
 		"nvim-tree/nvim-web-devicons",
 		"hrsh7th/nvim-cmp",
-		"ibhagwan/fzf-lua",
+		"nvim-telescope/telescope.nvim",
 		"zbirenbaum/copilot.lua",
 		"MeanderingProgrammer/render-markdown.nvim",
 		{
