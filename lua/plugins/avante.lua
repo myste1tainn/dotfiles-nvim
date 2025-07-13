@@ -40,6 +40,12 @@ return {
 				-- 	width = 60,
 				-- },
 			},
+			selector = {
+				provider = "telescope",
+			},
+			input = {
+				provider = "snacks", -- snacks.nvim input provider}
+			},
 			mappings = {
 				suggestion = {
 					accept = "<M-l>",
@@ -87,6 +93,7 @@ return {
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
 		"stevearc/dressing.nvim",
+		"folke/snacks.nvim", -- for input provider snacks
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
 		"nvim-tree/nvim-web-devicons",
