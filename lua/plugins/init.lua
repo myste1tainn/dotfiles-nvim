@@ -16,7 +16,8 @@ return {
 	-- { import = "plugins.vim-repeat" }, -- NOTE: Replaced by mini.surround
 	{ import = "plugins.mini" },
 	-- { import = "plugins.nvim-autopairs" }, -- NOTE: Replaced by mini.pairs
-	{ import = "plugins.fzf-lua" },
+	-- { import = "plugins.fzf-lua" },
+	{ import = "plugins.telescope" },
 	{ import = "plugins.nvim-spectre" },
 	{ import = "plugins.vim-visual-multi" },
 	-- { import = "plugins.comment" }, -- NOTE: Replaced by mini.comment

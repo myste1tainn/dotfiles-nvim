@@ -14,6 +14,10 @@ return {
 	end,
 	settings = {
 		gopls = {
+			flags = {
+				debounce_text_changes = 300,
+			},
+			diagnosticsDelay = "300ms",
 			gofumpt = true,
 			usePlaceholders = true,
 			completeUnimported = true,

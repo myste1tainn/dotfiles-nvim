@@ -3,7 +3,8 @@ return {
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
-				go = { "goimports" },
+				-- go = { "goimports" },
+				go = { "gofumpt" },
 				python = { "black" },
 				lua = { "stylua" },
 				ruby = { "rubocop" },

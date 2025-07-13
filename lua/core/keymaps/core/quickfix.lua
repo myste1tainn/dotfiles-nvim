@@ -1,5 +1,6 @@
 local keymap = vim.keymap.set
 local panes_util = require("utils.panes")
+local neotest = require("neotest")
 
 -- local function resize_quickfix(win)
 -- 	if vim.api.nvim_win_is_valid(win) then
@@ -101,15 +102,27 @@ return function(bufnr)
 				trouble.close("quickfix")
 			end,
 			on_pane_existed = function(win)
+				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
+				-- Having them both is counterproductive
+				neotest.output_panel.close()
+				neotest.summary.close()
 				---@diagnostic disable-next-line: missing-fields
 				trouble.focus({ mode = "quickfix" }, {})
 			end,
 			on_pane_not_existed = function()
+				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
+				-- Having them both is counterproductive
+				neotest.output_panel.close()
+				neotest.summary.close()
+
+				-- Trouble's diagnostics and quickfix windows are exclusive to each other for now
+				-- Having them both is counterproductive
 				trouble.close("diagnostics")
 				trouble.open({ mode = "quickfix", focus = true, win = { position = "bottom" } })
 			end,
 		})
 	end, { desc = "Toggle Quickfix" })
+
 	keymap({ "n", "v", "i" }, "<M-3>", function()
 		-- keymap({ "n", "v", "i" }, "<C-c>", function()
 		panes_util.toggle_pane({
@@ -126,10 +139,18 @@ return function(bufnr)
 				trouble.close("diagnostics")
 			end,
 			on_pane_existed = function(win)
+				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
+				-- Having them both is counterproductive
+				neotest.output_panel.close()
+				neotest.summary.close()
 				---@diagnostic disable-next-line: missing-fields
 				trouble.focus({ mode = "diagnostics" }, {})
 			end,
 			on_pane_not_existed = function()
+				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
+				-- Having them both is counterproductive
+				neotest.output_panel.close()
+				neotest.summary.close()
 				trouble.close("quickfix")
 				trouble.open({ mode = "diagnostics", focus = true, win = { position = "bottom" } })
 			end,
@@ -156,23 +177,38 @@ return function(bufnr)
 	-- end, { desc = "Toggle Quickfix" })
 
 	-- Navigating between quickfix list
+	local function safe_cmd(cmd)
+		local ok, err = pcall(vim.cmd, cmd)
+		if not ok or err ~= nil then
+			vim.notify("No more quickfix items.")
+		end
+	end
 	keymap({ "n", "v", "i" }, "<C-.>", function()
 		local current_idx = vim.fn.getqflist({ idx = 0 }).idx
 		local total_items = #vim.fn.getqflist()
 		if current_idx >= total_items then
 			vim.notify("No more quickfix items. Continuing from the top.", vim.log.levels.INFO)
-			vim.cmd("cfirst")
+			safe_cmd("cfirst")
 		else
-			vim.cmd("cnext")
+			safe_cmd("cnext")
 		end
 	end, { desc = "Next Quickfix Item" })
 	keymap({ "n", "v", "i" }, "<C-,>", function()
 		local current_idx = vim.fn.getqflist({ idx = 0 }).idx
 		if current_idx <= 1 then
 			vim.notify("No previous quickfix items. Continuing from the bottom.", vim.log.levels.INFO)
-			vim.cmd("clast")
+			safe_cmd("clast")
 		else
-			vim.cmd("cprev")
+			safe_cmd("cprev")
 		end
+	end, { desc = "Previous Quickfix Item" })
+
+	keymap({ "n", "v", "i" }, "<M-.>", function()
+		vim.cmd("Trouble diagnostics next")
+		vim.cmd("Trouble diagnostics jump")
+	end, { desc = "Next Quickfix Item" })
+	keymap({ "n", "v", "i" }, "<M-,>", function()
+		vim.cmd("Trouble diagnostics prev")
+		vim.cmd("Trouble diagnostics jump")
 	end, { desc = "Previous Quickfix Item" })
 end

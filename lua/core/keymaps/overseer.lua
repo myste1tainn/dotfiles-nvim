@@ -32,10 +32,10 @@ return function(bufnr)
 		vim.cmd("OverseerQuickAction restart")
 		toggle_fn()
 	end, { desc = "Restart Overseer Task", silent = true })
-	-- keymap_util.map_for_all_and_terminal("<M-9>", toggle_fn, { desc = "Toggle Overseer", silent = true })
-	keymap_util.map_for_all_and_terminal("<M-9>", toggle_fn, { desc = "Toggle Overseer", silent = true })
+	-- keymap_util.map_for_all_and_terminal("<M-8>", toggle_fn, { desc = "Toggle Overseer", silent = true })
+	keymap_util.map_for_all_and_terminal("<M-8>", toggle_fn, { desc = "Toggle Overseer", silent = true })
 	keymap_util.map_for_all_and_terminal(
-		"<M-.>",
+		"<M-s>",
 		"<Cmd>OverseerQuickAction stop<CR>",
 		{ desc = "Stop last run overseer tasks", silent = true }
 	)
