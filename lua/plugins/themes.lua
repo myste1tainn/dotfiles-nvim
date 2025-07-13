@@ -24,9 +24,7 @@ return {
 		end,
 	},
 	{
-		"chriskempson/base16-vim",
-		-- base16-default-dark
-		name = "base16",
+		"RRethy/base16-nvim",
 		lazy = true,
 		priority = 1000,
 	},

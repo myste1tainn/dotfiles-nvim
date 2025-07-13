@@ -3,6 +3,8 @@
 -- Inform the linter that `vim` is a global variable provided by Neovim
 ---@diagnostic disable: undefined-global
 
+-- Disable signature help handler, because I'm using lsp_signature.nvim
+vim.lsp.handlers["textDocument/signatureHelp"] = function() end
 -- Enable inlay hints for all LSP servers
 vim.lsp.inlay_hint.enable()
 -- Default capabilities

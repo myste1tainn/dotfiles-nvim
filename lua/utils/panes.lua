@@ -1,3 +1,5 @@
+local wins = require("utils.wins")
+
 ---@class PaneOpenPredicate Predication for checking if a pane is open, either buftype, filetype, or customtype must be set
 ---@field buftype (string[]|string|function)? If set as string, buftype will be used to check if the pane is open, focused, or closed., as function that function should be returning string
 ---@field filetype (string[]|string|function)? If set as string, filetype will be used to check if the pane is open, focused, or closed., as function that function should be returning string
@@ -93,6 +95,30 @@ function M.find_win(predicate)
 	return nil
 end
 
+---Focus windows that match the condition
+---@param predicate (fun(win: vim.fn.getwininfo.ret.item): boolean)|string Provide as string to find win by filetype, or function to custom predicate
+function M.focus_win(predicate)
+	local win = M.find_win(predicate)
+	if win then
+		if vim.api.nvim_get_current_win() ~= win.winid then
+			vim.api.nvim_set_current_win(win.winid)
+		end
+	else
+		vim.notify("No window found matching the predicate", vim.log.levels.WARN)
+	end
+end
+
+---Close windows that match the condition
+---@param predicate (fun(win: vim.fn.getwininfo.ret.item): boolean)|string Provide as string to find win by filetype, or function to custom predicate
+function M.close_win(predicate)
+	local win = M.find_win(predicate)
+	if win then
+		vim.api.nvim_win_close(win.winid, true)
+	else
+		vim.notify("No window found matching the predicate", vim.log.levels.WARN)
+	end
+end
+
 ---Toggle panes with specified options
 ---@param opts TogglePaneOpts
 function M.toggle_pane(opts)
@@ -166,6 +192,40 @@ function M.open_current_buffer_in_float()
 	for option, value in pairs(buf_options) do
 		vim.api.nvim_buf_set_option(buf, option, value)
 	end
+end
+
+function M.is_main_editor_window(win)
+	if vim.api.nvim_win_get_config(win).relative ~= "" then
+		return false -- it's a floating window
+	end
+
+	local buf = vim.api.nvim_win_get_buf(win)
+	local ft = vim.bo[buf].filetype
+	local bt = vim.bo[buf].buftype
+
+	for _, excluded in ipairs(wins.special_wins) do
+		if ft == excluded then
+			return false
+		end
+	end
+
+	for _, excluded in ipairs(wins.excluded_buftypes) do
+		if bt == excluded then
+			return false
+		end
+	end
+
+	return true
+end
+
+-- Find the first "main" window
+function M.find_main_editor_window()
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if M.is_main_editor_window(win) then
+			return win
+		end
+	end
+	return nil
 end
 
 return M

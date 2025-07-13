@@ -21,6 +21,23 @@ return {
 					["k"] = "MoveUp",
 					["<up>"] = "PeekUp",
 					["<down>"] = "PeekDown",
+					["y"] = false,
+					["<C-p>"] = "ShowRefs", -- TODO: <C-y> is conflicting to file_saving.lua keymaps
+				},
+				popup = {
+					["l"] = false,
+					["<C-l>"] = "LogPopup",
+					-- NOTE: "h" doesn't have conflicting map
+					["b"] = false,
+					["<C-b>"] = "BranchPopup",
+					["w"] = false,
+					["<C-w>"] = "WorktreePopup",
+					["v"] = false,
+					["<C-v>"] = "RevertPopup",
+					["f"] = false,
+					["<C-f>"] = "FetchPopup",
+					-- ["c"] = false,
+					-- ["<C-c>"] = "CommitPopup",
 				},
 			},
 			integrations = {

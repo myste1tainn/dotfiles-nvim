@@ -5,14 +5,15 @@ return {
 		---@diagnostic disable-next-line: missing-fields
 		require("avante").setup({
 			provider = "copilot",
-			auto_suggestions_provider = "copilot",
 			-- provider = "openai",
+			auto_suggestions_provider = "copilot",
 			-- auto_suggestions_provider = "openai",
 			api_key = os.getenv("OPENAI_API_KEY"),
 			providers = {
 				openai = {
-					model = "gpt-4o-mini",
+					-- model = "gpt-4o-mini",
 					-- model = "gpt-4o",
+					model = "gpt-4.1",
 				},
 			},
 			dual_boost = {
@@ -33,6 +34,11 @@ return {
 			},
 			windows = {
 				position = "bottom",
+				-- position = "right",
+				-- position = "smart",
+				-- input = {
+				-- 	width = 60,
+				-- },
 			},
 			mappings = {
 				suggestion = {

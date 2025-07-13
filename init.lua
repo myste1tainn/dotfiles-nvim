@@ -1,3 +1,12 @@
+-- local original_set_width = vim.api.nvim_win_set_width
+--
+-- vim.api.nvim_win_set_width = function(winid, width)
+-- 	local ok, buf = pcall(vim.api.nvim_win_get_buf, winid)
+-- 	local ft = ok and vim.api.nvim_buf_get_option(buf, "filetype") or "?"
+-- 	print("[DEBUG] Set width:", width, "WinID:", winid, "FT:", ft, "Stack:", debug.traceback("", 2))
+-- 	return original_set_width(winid, width)
+-- end
+
 -- TODO: LuaRocks loader not found fix this later so that I will not need the script below it
 -- local ok, result = pcall(require, "luarocks.loader")
 -- print("LuaRocks loader status:", ok, result)
@@ -74,16 +83,52 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
 
+require("monkey-patches.avante")
+require("user.autocommands.buffers")
+require("user.autocommands.tabs")
+require("user.commands")
 require("core.options")
 require("core.keymaps")
 require("core.auto_splits_resize").setup()
--- vim.cmd([[colorscheme gruvbox]])
-vim.cmd([[colorscheme nordfox]])
 -- Pick a subtle colour from your palette
--- local grey = "#586875"
---
--- vim.api.nvim_set_hl(0, "Whitespace", { fg = grey, nocombine = true })
--- vim.api.nvim_set_hl(0, "NonText", { fg = grey, nocombine = true })
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "*",
+	callback = function()
+		-- local npsp_color = "#dddddd" -- Replace with your desired grey color
+		local npsp_color = "#393D4C" -- Replace with your desired grey color
+		vim.api.nvim_set_hl(0, "Whitespace", { fg = npsp_color, nocombine = true })
+		vim.api.nvim_set_hl(0, "NonText", { fg = npsp_color, nocombine = true })
+
+		-- local special_key_color = "#ee7777" -- Replace with your desired special key color
+		local special_key_color = "#ee7777" -- Replace with your desired special key color
+		vim.api.nvim_set_hl(0, "SpecialKey", { fg = special_key_color, nocombine = true })
+	end,
+})
+
+--- Colorscheme
+-- Dark themes
+vim.cmd([[colorscheme nordfox]])
+-- vim.cmd([[colorscheme base16-zenburn]])
+-- vim.cmd([[colorscheme base16-espresso]])
+-- vim.cmd([[colorscheme base16-hopscotch]])
+-- vim.cmd([[colorscheme base16-everforest]])
+-- vim.cmd([[colorscheme base16-sandcastle]])
+-- vim.cmd([[colorscheme base16-schemer-medium]])
+-- vim.cmd([[colorscheme base16-rose-pine-moon]])
+-- vim.cmd([[colorscheme base16-rose-pine]])
+-- vim.cmd([[colorscheme base16-tomorrow-night]])
+-- vim.cmd([[colorscheme base16-egde-dark]])
+-- vim.cmd([[colorscheme base16-twilight]])
+-- vim.cmd([[colorscheme duskfox]])
+-- vim.cmd([[colorscheme gruvbox]])
+
+-- Light themes
+-- vim.cmd([[colorscheme base16-ayu-light]])
+-- vim.cmd([[colorscheme base16-egde-light]])
+-- vim.cmd([[colorscheme base16-primer-light]])
+-- vim.cmd([[colorscheme base16-harmonic-light]])
+-- vim.cmd([[colorscheme base16-sage-light]])
+-- vim.cmd([[colorscheme base16-github]])
 
 ---- Overseer
 -- Load project-local Overseer tasks from .nvim.lua

@@ -4,11 +4,17 @@ return {
 		require("notify").setup({ background_colour = "#000000" })
 		---@diagnostic disable-next-line: missing-fields
 		require("noice").setup({
+			popupmenu = {
+				backend = "cmp", -- <─ key line
+			},
 			cmdline = {
 				enabled = true,
 				view = "cmdline_popup", -- NOT "cmdline_popup"
 			},
 			lsp = {
+				signature = {
+					enabled = false, -- disabled because I'm using lsp_signature.nvim
+				},
 				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
 				override = {
 					["vim.lsp.util.convert_input_to_markdown_lines"] = true,

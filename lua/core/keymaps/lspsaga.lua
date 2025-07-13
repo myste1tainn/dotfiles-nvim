@@ -4,17 +4,22 @@ return function(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
 	-- Peek definition using lspsaga
-	keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts)
+	-- keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts)
+	keymap("n", "gdp", "<cmd>Lspsaga peek_definition<CR>", opts)
+	keymap("n", "gdd", "<cmd>Lspsaga goto_definition<CR>", opts)
+	keymap("n", "gdt", "<cmd>Lspsaga goto_type_definition<CR>", opts)
 	-- Hover using lspsaga
-	keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+	keymap("n", "H", "<cmd>Lspsaga hover_doc<CR>", opts)
+	keymap("i", "<C-/>", "<cmd>Lspsaga hover_doc<CR>", opts)
 	-- Show signature help using lspsaga
-	keymap("n", "<C-k>", "<cmd>Lspsaga signature_help<CR>", opts)
+	-- keymap("n", "<C-k>", "<cmd>Lspsaga signature_help<CR>", opts) -- There's no such thing as signature_help in lspsaga, check if there's something similar
 	-- Rename using lspsaga
 	keymap("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
 	-- Code actions using lspsaga
 	keymap("n", "<M-CR>", "<cmd>Lspsaga code_action<CR>", opts)
 	-- Show references using lspsaga
-	keymap("n", "gr", "<cmd>Lspsaga finder<CR>", opts)
+	-- keymap("n", "gr", "<cmd>Lspsaga finder<CR>", opts)
+	keymap("n", "grr", "<cmd>Lspsaga finder<CR>", opts)
 
 	-- Additional lspsaga keymaps
 	-- Diagnostic jump

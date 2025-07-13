@@ -27,9 +27,11 @@ return {
 	{ import = "plugins.markdown" },
 	{ import = "plugins.trouble" },
 	{ import = "plugins.aerial" },
+	{ import = "plugins.lsp_signature" },
 
 	-- Windows, Panes, Splits, Buffers Management
-	{ import = "plugins.windows" },
-	{ import = "plugins.edgy" },
-	{ import = "plugins.bufresize" },
+	-- { import = "plugins.windows" },
+	-- { import = "plugins.edgy" },
+	-- { import = "plugins.bufresize" },
+	{ import = "plugins.gitsigns" },
 }
