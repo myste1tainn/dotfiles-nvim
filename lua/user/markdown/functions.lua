@@ -37,13 +37,13 @@ end
 
 function M.indent_list_visual()
 	do_for_each_line(function()
-		vim.cmd("AutolistIndent")
+		vim.cmd("AutolistTab")
 	end)
 end
 
 function M.unindent_list_visual()
 	do_for_each_line(function()
-		vim.cmd("AutolistUnindent")
+		vim.cmd("AutolistShiftTab")
 	end)
 end
 

@@ -3,7 +3,7 @@ local M = {}
 
 function M.open()
 	-- Open the Neotest output panel and summary
-	neotest.output_panel.open()
+	-- neotest.output_panel.open()
 	neotest.summary.open()
 	-- Focus a window with filetype=neotest-output-panel
 	local output_bufnr = vim.fn.bufnr("neotest-output-panel")

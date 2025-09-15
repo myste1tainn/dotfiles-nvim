@@ -8,7 +8,7 @@ return {
 				python = { "black" },
 				lua = { "stylua" },
 				ruby = { "rubocop" },
-				dart = { "dartfmt" },
+				dart = { "dart_format" },
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				javascriptreact = { "prettier" },
@@ -17,16 +17,24 @@ return {
 				html = { "prettier" },
 				css = { "prettier" },
 				markdown = { "prettier" },
-				sh = { "beautysh" },
-				bash = { "beautysh" },
-				zsh = { "beautysh" },
+				sh = { "shfmt" },
+				bash = { "shfmt" },
+				zsh = { "shfmt" },
 				java = { "google-java-format" },
+				rust = { "rustfmt" },
+				starlark = { "buildifier" },
 			},
 			formatters = {
 				prettier = {
 					command = "prettier",
 					args = { "--stdin-filepath", "$FILENAME" },
 					stdin = true,
+				},
+				dart_format = {
+					-- command = "dart",
+					-- args = { "format", "--output", "show", "--line-length", "80", "$FILENAME" },
+					-- stdin = true,
+					timeout_ms = 10000, -- 10 seconds
 				},
 			},
 		})

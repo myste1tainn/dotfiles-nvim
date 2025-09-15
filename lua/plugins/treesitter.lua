@@ -9,12 +9,13 @@ return {
 		config = function()
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "go", "python", "dart", "lua", "javascript" },
+				ensure_installed = { "go", "python", "dart", "lua", "javascript", "rust", "starlark" },
 				highlight = {
 					enable = true,
 				},
 				indent = {
 					enable = true,
+					disable = { "dart" },
 				},
 				-- NOTE: Commented out to avoid conflicts with mini.ai
 				textobjects = {

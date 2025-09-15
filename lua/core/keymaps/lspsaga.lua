@@ -16,10 +16,25 @@ return function(bufnr)
 	-- Rename using lspsaga
 	keymap("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
 	-- Code actions using lspsaga
-	keymap("n", "<M-CR>", "<cmd>Lspsaga code_action<CR>", opts)
+	keymap({ "n", "v" }, "<M-CR>", "<cmd>Lspsaga code_action<CR>", opts)
 	-- Show references using lspsaga
 	-- keymap("n", "gr", "<cmd>Lspsaga finder<CR>", opts)
-	keymap("n", "grr", "<cmd>Lspsaga finder<CR>", opts)
+	local lspsaga_finder = function()
+		require("lspsaga.finder").lsp_finder({
+			layout = "float",
+			finder_action_keys = {
+				open = { "o", "<CR>" },
+				vsplit = "v",
+				split = "s",
+				tabe = "t",
+				quit = { "q", "<ESC>" },
+				scroll_down = "<C-f>",
+				scroll_up = "<C-b>",
+			},
+		})
+	end
+	keymap("n", "grr", "<cmd>Lspsaga finder<cr>", opts)
+	keymap("n", "gri", "<cmd>Lspsaga finder<cr>", opts)
 
 	-- Additional lspsaga keymaps
 	-- Diagnostic jump

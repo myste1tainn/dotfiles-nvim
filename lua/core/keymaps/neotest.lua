@@ -7,10 +7,10 @@ local trouble = require("trouble")
 local function toggle_neotest()
 	panes_util.toggle_pane({
 		pane_open_predicate = {
-			filetype = "neotest-output-panel",
+			filetype = "neotest-summary",
 		},
 		on_pane_is_being_focused = function(win)
-			neotest.output_panel.close()
+			-- neotest.output_panel.close()
 			neotest.summary.close()
 		end,
 		on_pane_existed = function(win)
@@ -25,7 +25,7 @@ local function toggle_neotest()
 			-- Having them both is counterproductive
 			trouble.close("quickfix")
 			trouble.close("diagnostics")
-			neotest.output_panel.open()
+			-- neotest.output_panel.open()
 			neotest.summary.open()
 			panes_util.focus_win("neotest-output-panel")
 		end,

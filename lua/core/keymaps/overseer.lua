@@ -22,13 +22,13 @@ return function(bufnr)
 	end
 	local toggle_command = "<Cmd>OverseerToggle<CR>"
 	-- Refactored using keymap_util.map_for_all_and_terminal
-	keymap_util.map_for_all_and_terminal({ keys = "<leader>r", modes = { "n", "v" } }, function()
+	keymap_util.map_for_all_and_terminal({ keys = "<leader>rr", modes = { "n", "v" } }, function()
 		vim.cmd("OverseerRun")
 		-- TODO: It not possible to do this because the run prompt will not be there yet, and the windon is focused already
 		--       Find a way to show this after the run prompt has been confirmed
 		-- toggle_fn()
 	end, { desc = "Run Overseer Task", silent = true })
-	keymap_util.map_for_all_and_terminal({ keys = "<leader>rr", modes = { "n", "v" } }, function()
+	keymap_util.map_for_all_and_terminal({ keys = "<leader>rl", modes = { "n", "v" } }, function()
 		vim.cmd("OverseerQuickAction restart")
 		toggle_fn()
 	end, { desc = "Restart Overseer Task", silent = true })

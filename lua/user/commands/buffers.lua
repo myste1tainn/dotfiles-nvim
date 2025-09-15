@@ -1,12 +1,22 @@
 local util_wins = require("utils.wins")
 local tabs = require("user.autocommands.tabs")
+
+-- Returns true if a tabpage with the given handle exists
+local function tab_exists(tabnr)
+	for _, id in ipairs(vim.api.nvim_list_tabpages()) do
+		if id == tabnr then
+			return true
+		end
+	end
+	return false
+end
+
 -- Close every buffer except the one you’re on -------------------------------
 -- -----------------------------------------------------------
 --  BufOnly   - close every *file* buffer except the one
 --             you are looking at, while keeping special
 --             UI buffers (Neogit, qf, help, Telescope …)
 -----------------------------------------------------------
-
 vim.api.nvim_create_user_command("BufOnly", function()
 	local current = vim.api.nvim_get_current_buf()
 	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -36,7 +46,7 @@ end, { desc = "Delete unnamed & unmodified buffers" })
 vim.api.nvim_create_user_command("TabLastVisited", function()
 	if tabs.last_visited_tab and tabs.last_visited_tab ~= vim.fn.tabpagenr() then
 		-- if last tab exsts, go to it
-		if vim.fn.tabpage_exists(tabs.last_visited_tab) == 1 then
+		if tab_exists(tabs.last_visited_tab) == 1 then
 			vim.cmd("tabnext " .. tabs.last_visited_tab)
 		else
 			print("" .. tabs.last_visited_tab .. " does not exist")

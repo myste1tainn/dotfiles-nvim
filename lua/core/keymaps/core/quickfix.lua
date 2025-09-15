@@ -104,7 +104,7 @@ return function(bufnr)
 			on_pane_existed = function(win)
 				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 				-- Having them both is counterproductive
-				neotest.output_panel.close()
+				-- neotest.output_panel.close()
 				neotest.summary.close()
 				---@diagnostic disable-next-line: missing-fields
 				trouble.focus({ mode = "quickfix" }, {})
@@ -112,7 +112,7 @@ return function(bufnr)
 			on_pane_not_existed = function()
 				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 				-- Having them both is counterproductive
-				neotest.output_panel.close()
+				-- neotest.output_panel.close()
 				neotest.summary.close()
 
 				-- Trouble's diagnostics and quickfix windows are exclusive to each other for now
@@ -141,7 +141,7 @@ return function(bufnr)
 			on_pane_existed = function(win)
 				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 				-- Having them both is counterproductive
-				neotest.output_panel.close()
+				-- neotest.output_panel.close()
 				neotest.summary.close()
 				---@diagnostic disable-next-line: missing-fields
 				trouble.focus({ mode = "diagnostics" }, {})
@@ -149,7 +149,7 @@ return function(bufnr)
 			on_pane_not_existed = function()
 				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 				-- Having them both is counterproductive
-				neotest.output_panel.close()
+				-- neotest.output_panel.close()
 				neotest.summary.close()
 				trouble.close("quickfix")
 				trouble.open({ mode = "diagnostics", focus = true, win = { position = "bottom" } })

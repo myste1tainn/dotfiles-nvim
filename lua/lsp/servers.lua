@@ -8,4 +8,6 @@ return {
 	java = "jdtls",
 	groovy = "groovyls",
 	xml = "lemminx",
+	rust = "rust_analyzer",
+	starlark = "bzl",
 }

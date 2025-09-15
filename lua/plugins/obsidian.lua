@@ -18,7 +18,6 @@ local vaults_path = vim.fn.expand("~/Library/CloudStorage/GoogleDrive-a.keereena
 vim.api.nvim_create_autocmd("BufReadPre", {
 	pattern = "*.md", -- match broadly
 	callback = function(args)
-		opts.bufnr = args.buf
 		local full_path = vim.api.nvim_buf_get_name(args.buf)
 		if full_path:sub(1, #vaults_path) == vaults_path then
 			-- linking and navigation management
@@ -30,10 +29,10 @@ vim.api.nvim_create_autocmd("BufReadPre", {
 			keymap("n", "gR", ":ObsidianRename ", opts)
 
 			-- editing
-			keymap({ "n", "v", "i" }, "<C-v>", "<Esc><Cmd>ObsidianPasteImg ", opts)
+			keymap({ "n", "v", "i" }, ",<C-v>", "<Esc><Cmd>ObsidianPasteImg ", opts)
 
 			-- set conceallevel to 2 for better link visibility
-			vim.api.nvim_buf_set_option(bufnr, "conceallevel", 2)
+			vim.api.nvim_buf_set_option(args.buf, "conceallevel", 3)
 		end
 	end,
 })

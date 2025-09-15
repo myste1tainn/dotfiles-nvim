@@ -14,6 +14,16 @@ return {
 		require("telescope").setup({
 			defaults = {
 				file_ignore_patterns = { ".git/", "node_modules/", "%.lock" },
+				vimgrep_arguments = {
+					"rg",
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+					"--smart-case",
+					"--hidden", -- add this line
+				},
 			},
 			pickers = {
 				find_files = {

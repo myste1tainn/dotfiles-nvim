@@ -1,5 +1,8 @@
 return {
 	"NeogitOrg/neogit",
+	dependencies = {
+		require("plugins.diffview"),
+	},
 	config = function()
 		require("neogit").setup({
 			disable_signs = false,
@@ -45,7 +48,4 @@ return {
 			},
 		})
 	end,
-	dependencies = {
-		"sindrets/diffview.nvim",
-	},
 }

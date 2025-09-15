@@ -24,6 +24,8 @@ return {
 	{ import = "plugins.trouble" },
 	{ import = "plugins.aerial" },
 	{ import = "plugins.lsp_signature" },
+	{ import = "plugins.flutter-tools" },
+	{ import = "plugins.dart-vim-plugin" },
 
 	-- Windows, Panes, Splits, Buffers Management
 	{ import = "plugins.windows" },

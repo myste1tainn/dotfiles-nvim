@@ -24,6 +24,8 @@ return {
 			end, { desc = "Toggle Current Line Blame" })
 			keymap("n", "<leader>gp", gs.preview_hunk, { desc = "Preview Hunk" })
 			keymap("n", "<leader>gR", gs.reset_hunk, { desc = "Reset Hunk" })
+			keymap("n", "<leader>ghn", gs.next_hunk, { desc = "Reset Hunk" })
+			keymap("n", "<leader>ghp", gs.prev_hunk, { desc = "Reset Hunk" })
 			keymap("n", "<leader>gS", gs.stage_hunk, { desc = "Stage Hunk" })
 			keymap("n", "<leader>gU", gs.undo_stage_hunk, { desc = "Undo Stage Hunk" })
 		end,

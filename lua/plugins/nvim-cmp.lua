@@ -1,6 +1,7 @@
 return {
 	"hrsh7th/nvim-cmp",
 	dependencies = {
+		"L3MON4D3/LuaSnip",
 		"zbirenbaum/copilot-cmp", -- Copilot integration
 		{ "hrsh7th/cmp-cmdline", lazy = false },
 		"hrsh7th/cmp-path",

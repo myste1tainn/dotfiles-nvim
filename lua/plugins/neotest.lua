@@ -94,7 +94,7 @@ local function setup_neotest(neotest_golang_adapter)
 	---@diagnostic disable-next-line: missing-fields
 	require("neotest").setup({
 		---@diagnostic disable-next-line: missing-fields, assign-type-mismatch
-		quickfix = { open = "failed" },
+		quickfix = { open = false },
 		---@diagnostic disable-next-line: missing-fields
 		status = { enabled = true },
 		---@diagnostic disable-next-line: missing-fields

@@ -90,12 +90,13 @@ require("user.commands")
 require("core.options")
 require("core.keymaps")
 require("core.auto_splits_resize").setup()
+require("watchers.direnv").setup()
 -- Pick a subtle colour from your palette
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
 	callback = function()
 		-- local npsp_color = "#dddddd" -- Replace with your desired grey color
-		local npsp_color = "#393D4C" -- Replace with your desired grey color
+		local npsp_color = "#595D6C" -- Replace with your desired grey color
 		vim.api.nvim_set_hl(0, "Whitespace", { fg = npsp_color, nocombine = true })
 		vim.api.nvim_set_hl(0, "NonText", { fg = npsp_color, nocombine = true })
 

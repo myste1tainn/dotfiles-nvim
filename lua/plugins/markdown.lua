@@ -9,8 +9,8 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.formatoptions:append("t")
 
 		-- TODO: AutolistTab have this problem where it will not pushed the first character of the line, so moving it to just markdown & Avante first, until I know how to fix it
-		keymap("i", "<Tab>", "<cmd>AutolistTab<cr>", { desc = "Autolist Tab", silent = true })
-		keymap("i", "<S-Tab>", "<cmd>AutolistShiftTab<cr>", { desc = "Autolist Shift Tab", silent = true })
+		keymap({ "n", "i" }, "<Tab>", "<cmd>AutolistTab<cr>", { desc = "Autolist Tab", silent = true })
+		keymap({ "n", "i" }, "<S-Tab>", "<cmd>AutolistShiftTab<cr>", { desc = "Autolist Shift Tab", silent = true })
 		-- keymap("i", "<c-t>", "<c-t><cmd>AutolistRecalculate<cr>") -- an example of using <c-t> to indent
 	end,
 })
