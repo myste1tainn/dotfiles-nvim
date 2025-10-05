@@ -17,6 +17,30 @@ local function strip_outer_quotes(val)
 	return val
 end
 
+local function strip_trailing_comment(val)
+	if not val then
+		return val
+	end
+	local in_single_quote = false
+	local in_double_quote = false
+	local escape_next = false
+	for i = 1, #val do
+		local char = val:sub(i, i)
+		if escape_next then
+			escape_next = false
+		elseif char == "\\" then
+			escape_next = true
+		elseif char == "'" and not in_double_quote then
+			in_single_quote = not in_single_quote
+		elseif char == '"' and not in_single_quote then
+			in_double_quote = not in_double_quote
+		elseif char == "#" and not in_single_quote and not in_double_quote then
+			return val:sub(1, i - 1):match("^%s*(.-)%s*$") -- trim spaces before comment
+		end
+	end
+	return val:match("^%s*(.-)%s*$") -- trim spaces if no comment found
+end
+
 local function parse_env_file(filepath)
 	local vars = {}
 	local file = io.open(filepath, "r")
@@ -33,6 +57,8 @@ local function parse_env_file(filepath)
 				key, val = str:match("^([A-Za-z_][A-Za-z0-9_]*)%s*=%s*(.*)$")
 			end
 			if key and val then
+				-- NOTES: Have to be in this order, otherwise the trailing comments can mess with the quotes detection
+				val = strip_trailing_comment(val)
 				val = strip_outer_quotes(val)
 				vars[key] = val
 			else
