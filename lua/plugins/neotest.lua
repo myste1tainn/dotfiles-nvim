@@ -1,7 +1,11 @@
-function neotest_golang_setup()
+local function neotest_golang_setup()
+	local jsonfile = vim.fn.stdpath("state") .. "/neotest/gotestsum.json"
 	-- TODO: Tidy up this hacky code somewhere, forked patch if needed
 	local neotest_golang = require("neotest-golang")({
 		runner = "gotestsum",
+		env = {
+			GOTESTSUM_JSONFILE = jsonfile,
+		},
 		runner_strategy = {
 			dap = "go",
 			go_test_args = {
@@ -20,9 +24,9 @@ function neotest_golang_setup()
 			"-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
 		},
 		gotestsum_args = {
-			"--format=standard-verbose",
+			-- "--format=standard-verbose",
 			-- "--jsonfile",
-			-- "--",
+			-- jsonfile,
 		},
 		-- gotestsum_args = { "--format=testname" },
 		-- sanitize_output = true,
@@ -116,7 +120,13 @@ return {
 		"nvim-neotest/neotest",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
+			{
+				"nvim-treesitter/nvim-treesitter",
+				branch = "main",
+				bulid = function()
+					vim.cmd("TSUpdate go")
+				end,
+			},
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-neotest/nvim-nio",
 			-- "myste1tainn/neotest-go", -- Supports only basic go testing, suite not supported, output panel raw JSON, unreadable, need to configure yourself (forked-patching)
@@ -124,6 +134,10 @@ return {
 			"nvim-neotest/neotest-vim-test",
 			{
 				"fredrikaverpil/neotest-golang",
+				version = "*",
+				build = function()
+					vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait() -- Optional, but recommended
+				end,
 				dependencies = {
 					{
 						"andythigpen/nvim-coverage",

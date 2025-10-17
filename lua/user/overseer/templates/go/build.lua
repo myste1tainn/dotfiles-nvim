@@ -2,7 +2,7 @@ local path_util = require("utils.path")
 local common = require("user.overseer.templates.go.common")
 local state = require("user.overseer.state")
 
-local template_name = "2. Go: Build"
+local template_name = "2. Build"
 
 return {
 	name = template_name,

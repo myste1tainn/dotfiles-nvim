@@ -113,10 +113,7 @@ local function update_env_from_files(envfiles, is_first_run)
 	if is_first_run then
 		vim.schedule(function()
 			if count == 0 then
-				vim.notify(
-					"[direnv_watch] envrc detected, but no environment variables loaded please check .envrc file",
-					vim.log.levels.INFO
-				)
+				-- Do nothing, since there were no variables loaded
 			else
 				vim.notify(
 					string.format("[direnv_watch] Loaded %d environment variables from direnv files", count),
