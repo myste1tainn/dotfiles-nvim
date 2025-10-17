@@ -25,6 +25,10 @@ return {
 						keymaps = {
 							["af"] = "@function.outer",
 							["if"] = "@function.inner",
+							["ai"] = "@conditional.outer",
+							["ii"] = "@conditional.inner",
+							["ae"] = "@else.outer",
+							["ie"] = "@else.inner",
 						},
 					},
 				},

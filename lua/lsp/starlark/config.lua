@@ -1,8 +1,8 @@
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "starlark",
 	callback = function()
-		require("autolist").setup({ enabled = false }) -- if supported
-		vim.keymap.set("n", "dd", "dd", { buffer = true }) -- restore normal dd
+		-- require("autolist").setup({ enabled = false }) -- if supported
+		-- vim.keymap.set("n", "dd", "dd", { buffer = true }) -- restore normal dd
 	end,
 })
 

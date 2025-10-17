@@ -13,7 +13,12 @@ return {
 		local servers = require("lsp.servers")
 		local server_names = {}
 		for _, server in pairs(servers) do
+			-- Change to the name that mason-lspconfig uses
+			if server == "dartls" then
+				goto continue
+			end
 			table.insert(server_names, server)
+			::continue::
 		end
 
 		require("mason-lspconfig").setup({

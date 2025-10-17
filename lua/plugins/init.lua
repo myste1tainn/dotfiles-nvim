@@ -13,6 +13,7 @@ return {
 	{ import = "plugins.noice" },
 	{ import = "plugins.neogit" },
 	{ import = "plugins.mini" },
+	{ import = "plugins.vim-surround" },
 	{ import = "plugins.telescope" },
 	{ import = "plugins.nvim-spectre" },
 	{ import = "plugins.vim-visual-multi" },
@@ -24,7 +25,6 @@ return {
 	{ import = "plugins.trouble" },
 	{ import = "plugins.aerial" },
 	{ import = "plugins.lsp_signature" },
-	{ import = "plugins.flutter-tools" },
 	{ import = "plugins.dart-vim-plugin" },
 
 	-- Windows, Panes, Splits, Buffers Management

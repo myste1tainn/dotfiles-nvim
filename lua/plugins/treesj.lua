@@ -2,10 +2,21 @@ return {
 	"Wansmer/treesj",
 	dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
 	config = function()
-		require("treesj").setup({ use_default_keymaps = false })
-		vim.keymap.set("n", "K", require("treesj").split) -- split block
-		-- NOTE: Just J will conflict with the default join behavior in Vim.
-		-- But if you find that gJ works the same way, then might make sense to override it.
-		vim.keymap.set("n", "gJ", require("treesj").join) -- keep gJ for joining
+		require("treesj").setup({
+			use_default_keymaps = false,
+			max_join_length = 999999,
+		})
+		vim.keymap.set("n", "<leader>j", require("treesj").join)
+		vim.keymap.set("n", "<leader>s", require("treesj").split)
+		vim.keymap.set("n", "<leader>m", require("treesj").toggle)
+		vim.keymap.set("n", "<leader>J", function()
+			require("treesj").join({ recursive = true })
+		end)
+		vim.keymap.set("n", "<leader>S", function()
+			require("treesj").split({ recursive = true })
+		end)
+		vim.keymap.set("n", "<leader>M", function()
+			require("treesj").toggle({ split = { recursive = true }, join = { recursive = true } })
+		end)
 	end,
 }

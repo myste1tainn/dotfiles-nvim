@@ -24,9 +24,13 @@ return {
 				},
 			},
 			commands = {
-				-- NOTE: Disable because it wrong, the code itself is suggested by the plugin official page
+				-- NOTE: Disable because the diagnostic is wrong, the code itself is suggested by the plugin official page
 				---@diagnostic disable-next-line: redundant-parameter
 				system_open = function(state)
+					if state.tree == nil or state.tree:get_node() == nil then
+						print("No node selected or state is invalid, no tree object")
+						return
+					end
 					local node = state.tree:get_node()
 					if node.type == "directory" then
 						vim.fn.system("open " .. node.path)
@@ -48,7 +52,6 @@ return {
 		})
 		local keymap = vim.keymap.set
 
-		keymap("n", "<leader>e", ":Neotree toggle<CR>", { desc = "Toggle File Tree", silent = true })
 		keymap("n", "<leader>o", ":Neotree reveal<CR>", { desc = "Reveal in File Tree", silent = true })
 	end,
 }

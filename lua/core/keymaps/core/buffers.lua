@@ -3,7 +3,7 @@ local keymap_util = require("utils.keymap")
 local buf_actions = require("user.actions.buffers")
 
 return function(bufnr)
-	keymap_util.map_for_all_and_terminal([[<M-T>]], "<Cmd>tabnew<CR>", { desc = "New tab", silent = true })
+	keymap_util.map_for_all_and_terminal([[<M-t>]], "<Cmd>tabnew<CR>", { desc = "New tab", silent = true })
 	-- TODO: This clashes with exit insert / terminal mode, so it is commented out for now, find a better solution
 	keymap_util.map_for_all_and_terminal([[<M-{>]], "<Cmd>tabprevious<CR>", { desc = "Next tab", silent = true })
 	keymap_util.map_for_all_and_terminal([[<M-}>]], "<Cmd>tabnext<CR>", { desc = "Previous tab", silent = true })

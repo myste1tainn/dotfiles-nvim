@@ -1,10 +1,10 @@
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "go",
 	callback = function()
-		require("autolist").setup({ enabled = false })
-		vim.keymap.set("n", "o", "o", { buffer = true }) -- restore normal o
-		vim.keymap.set("i", "<CR>", "<CR>", { buffer = true }) -- restore normal <CR>
-		vim.keymap.set("n", "dd", "dd", { buffer = true }) -- restore normal dd
+		-- require("autolist").setup({ enabled = false })
+		-- vim.keymap.set("n", "o", "o", { buffer = true }) -- restore normal o
+		-- vim.keymap.set("i", "<CR>", "<CR>", { buffer = true }) -- restore normal <CR>
+		-- vim.keymap.set("n", "dd", "dd", { buffer = true }) -- restore normal dd
 	end,
 })
 
@@ -16,9 +16,6 @@ return {
 	end,
 	settings = {
 		gopls = {
-			flags = {
-				debounce_text_changes = 300,
-			},
 			diagnosticsDelay = "300ms",
 			gofumpt = true,
 			usePlaceholders = true,

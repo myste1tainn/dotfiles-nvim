@@ -19,7 +19,7 @@ local get_dir = function(file)
 end
 
 return {
-	name = "2. Go: Test",
+	name = "3. Go: Test",
 	condition = common.condition,
 	params = function()
 		local root, files = path_util.root_and_files_under_pattern("go.mod", "**/*_test.go")

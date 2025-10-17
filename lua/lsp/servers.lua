@@ -10,4 +10,5 @@ return {
 	xml = "lemminx",
 	rust = "rust_analyzer",
 	starlark = "bzl",
+	dart = "dartls",
 }
