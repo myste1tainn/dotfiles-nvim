@@ -24,7 +24,7 @@ local function neotest_golang_setup()
 			"-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
 		},
 		gotestsum_args = {
-			-- "--format=standard-verbose",
+			"--format=standard-verbose",
 			-- "--jsonfile",
 			-- jsonfile,
 		},

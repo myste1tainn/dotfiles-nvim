@@ -116,40 +116,33 @@ return {
 					},
 				})
 
-				-- 							["af"] = "@function.outer",
-				-- 							["if"] = "@function.inner",
-				-- 							["ai"] = "@conditional.outer",
-				-- 							["ii"] = "@conditional.inner",
-				-- 							["ae"] = "@else.outer",
-				-- 							["ie"] = "@else.inner",
-				-- keymaps
-				-- You can use the capture groups defined in `textobjects.scm`
+				local tsts = require("nvim-treesitter-textobjects.select")
 				vim.keymap.set({ "x", "o" }, "af", function()
-					tst.select.select_textobject("@function.outer", "textobjects")
+					tsts.select_textobject("@function.outer", "textobjects")
 				end)
 				vim.keymap.set({ "x", "o" }, "if", function()
-					tst.select.select_textobject("@function.inner", "textobjects")
+					tsts.select_textobject("@function.inner", "textobjects")
 				end)
 				vim.keymap.set({ "x", "o" }, "ai", function()
-					tst.select.select_textobject("@conditional.outer", "textobjects")
+					tsts.select_textobject("@conditional.outer", "textobjects")
 				end)
 				vim.keymap.set({ "x", "o" }, "ii", function()
-					tst.select.select_textobject("@conditional.inner", "textobjects")
+					tsts.select_textobject("@conditional.inner", "textobjects")
 				end)
 				vim.keymap.set({ "x", "o" }, "ae", function()
-					tst.select.select_textobject("@else.outer", "textobjects")
+					tsts.select_textobject("@else.outer", "textobjects")
 				end)
 				vim.keymap.set({ "x", "o" }, "ie", function()
-					tst.select.select_textobject("@else.inner", "textobjects")
+					tsts.select_textobject("@else.inner", "textobjects")
 				end)
 				vim.keymap.set({ "x", "o" }, "ac", function()
-					tst.select.select_textobject("@class.outer", "textobjects")
+					tsts.select_textobject("@class.outer", "textobjects")
 				end)
 				vim.keymap.set({ "x", "o" }, "ic", function()
-					tst.select.select_textobject("@class.inner", "textobjects")
+					tsts.select_textobject("@class.inner", "textobjects")
 				end)
 				vim.keymap.set({ "x", "o" }, "as", function()
-					tst.select.select_textobject("@local.scope", "locals")
+					tsts.select_textobject("@local.scope", "locals")
 				end)
 			end,
 		},
