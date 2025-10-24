@@ -91,24 +91,86 @@ require("core.options")
 require("core.keymaps")
 require("core.auto_splits_resize").setup()
 require("watchers.direnv").setup()
--- Pick a subtle colour from your palette
-vim.api.nvim_create_autocmd("ColorScheme", {
-	pattern = "*",
-	callback = function()
-		-- local npsp_color = "#dddddd" -- Replace with your desired grey color
-		local npsp_color = "#595D6C" -- Replace with your desired grey color
-		vim.api.nvim_set_hl(0, "Whitespace", { fg = npsp_color, nocombine = true })
-		vim.api.nvim_set_hl(0, "NonText", { fg = npsp_color, nocombine = true })
+-- helpers
+local function get_hex_fg(group)
+	local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = true })
+	if ok and hl and hl.fg then
+		return string.format("#%06x", hl.fg)
+	end
+	return nil
+end
 
-		-- local special_key_color = "#ee7777" -- Replace with your desired special key color
-		local special_key_color = "#ee7777" -- Replace with your desired special key color
-		vim.api.nvim_set_hl(0, "SpecialKey", { fg = special_key_color, nocombine = true })
+local function pick_fg(groups)
+	for _, g in ipairs(groups) do
+		local fg = get_hex_fg(g)
+		if fg then
+			return fg
+		end
+	end
+	return nil
+end
+
+vim.highlight.priorities.semantic_tokens = 250
+
+-- cache of ORIGINAL scheme colors (per colorscheme)
+local cache = { scheme = nil, param_fg = nil, var_fg = nil }
+
+local function compute_base_colors()
+	-- read only from scheme/TS groups (not from @lsp.* that we modify)
+	local param_fg = pick_fg({ "@variable.parameter", "@parameter", "TSParameter", "Identifier" })
+	local var_fg = pick_fg({ "@variable", "TSVariable", "Identifier" })
+
+	return param_fg, var_fg
+end
+
+local function apply_custom()
+	-- Example: keep parameters as-is, make non-parameter variables white
+	-- (Change to your desired behavior. If you want the “swap”, use cache.var_fg for params.)
+	local desired_var = cache.var_fg
+	vim.api.nvim_set_hl(0, "@lsp.type.parameter.go", { fg = cache.var_fg, italic = true })
+	vim.api.nvim_set_hl(0, "@lsp.type.variable.go", { fg = cache.param_fg })
+
+	-- fallbacks when semantic tokens are missing
+	vim.api.nvim_set_hl(0, "@variable.parameter.go", { fg = cache.var_fg, italic = true })
+	vim.api.nvim_set_hl(0, "@variable.go", { fg = cache.param_fg })
+
+	-- your other tweaks
+	vim.api.nvim_set_hl(0, "Whitespace", { fg = "#595D6C", nocombine = true })
+	vim.api.nvim_set_hl(0, "NonText", { fg = "#595D6C", nocombine = true })
+	vim.api.nvim_set_hl(0, "SpecialKey", { fg = "#ee7777", nocombine = true })
+end
+
+local grp = vim.api.nvim_create_augroup("MyHLOncePerScheme", { clear = true })
+
+-- Recompute ONLY when colorscheme changes (or on first start)
+vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
+	group = grp,
+	callback = function()
+		cache.scheme = vim.g.colors_name or "default"
+		cache.param_fg, cache.var_fg = compute_base_colors()
+		-- If we failed to detect colors, bail gracefully
+		if not cache.param_fg or not cache.var_fg then
+			return
+		end
+		apply_custom()
+	end,
+})
+
+-- Reapply (without recomputing) on LSP attach / Go files opening
+vim.api.nvim_create_autocmd({ "LspAttach", "FileType" }, {
+	group = grp,
+	pattern = { "go" },
+	callback = function()
+		if cache.param_fg and cache.var_fg then
+			apply_custom()
+		end
 	end,
 })
 
 --- Colorscheme
 -- Dark themes
-vim.cmd([[colorscheme nordfox]])
+-- vim.cmd([[colorscheme nordfox]])
+-- vim.cmd([[colorscheme dawnfox]])
 -- vim.cmd([[colorscheme base16-zenburn]])
 -- vim.cmd([[colorscheme base16-espresso]])
 -- vim.cmd([[colorscheme base16-hopscotch]])
@@ -122,6 +184,7 @@ vim.cmd([[colorscheme nordfox]])
 -- vim.cmd([[colorscheme base16-twilight]])
 -- vim.cmd([[colorscheme duskfox]])
 -- vim.cmd([[colorscheme gruvbox]])
+vim.cmd([[colorscheme base16-ayu-mirage]])
 
 -- Light themes
 -- vim.cmd([[colorscheme base16-ayu-light]])
