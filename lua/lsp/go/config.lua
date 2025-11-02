@@ -5,6 +5,10 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- vim.keymap.set("n", "o", "o", { buffer = true }) -- restore normal o
 		-- vim.keymap.set("i", "<CR>", "<CR>", { buffer = true }) -- restore normal <CR>
 		-- vim.keymap.set("n", "dd", "dd", { buffer = true }) -- restore normal dd
+		-- vim.opt_local.shiftwidth = 2
+		-- vim.opt_local.tabstop = 2
+		-- vim.opt_local.softtabstop = 2
+		vim.opt_local.expandtab = false
 	end,
 })
 

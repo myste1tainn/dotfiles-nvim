@@ -24,10 +24,10 @@ return function(bufnr)
 	end, { desc = "DapUI: Close", silent = true })
 
 	-- Continue/Step Over/Step Into/Step Out
-	keymap("n", "<leader>pc", dap.continue, { desc = "Dap: Continue", silent = true })
-	keymap("n", "<leader>po", dap.step_over, { desc = "Dap: Step Over", silent = true })
-	keymap("n", "<leader>pi", dap.step_into, { desc = "Dap: Step Into", silent = true })
-	keymap("n", "<leader>pO", dap.step_out, { desc = "Dap: Step Out", silent = true })
+	keymap("n", "<M-a>", dap.continue, { desc = "Dap: Continue", silent = true })
+	keymap("n", "<M-o>", dap.step_over, { desc = "Dap: Step Over", silent = true })
+	keymap("n", "<M-e>", dap.step_into, { desc = "Dap: Step Into", silent = true })
+	keymap("n", "<M-u>", dap.step_out, { desc = "Dap: Step Out", silent = true })
 
 	-- Toggle Breakpoint
 	keymap({ "n", "v" }, "<M-\\>", dap.toggle_breakpoint, { desc = "Dap: Toggle Breakpoint", silent = true })

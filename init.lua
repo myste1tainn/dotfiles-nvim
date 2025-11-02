@@ -1,3 +1,18 @@
+-- Indentation basics
+vim.opt.expandtab = true -- use spaces
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.smarttab = true
+vim.opt.autoindent = true
+vim.opt.smartindent = true -- simple smart C-like indent
+
+-- Make sure filetype-based indents are on
+vim.cmd("filetype plugin indent on")
+
+-- Avoid surprises
+vim.opt.paste = false -- paste mode disables autoindent
+
 -- local original_set_width = vim.api.nvim_win_set_width
 --
 -- vim.api.nvim_win_set_width = function(winid, width)
@@ -126,15 +141,31 @@ end
 local function apply_custom()
 	-- Example: keep parameters as-is, make non-parameter variables white
 	-- (Change to your desired behavior. If you want the “swap”, use cache.var_fg for params.)
-	local desired_var = cache.var_fg
-	vim.api.nvim_set_hl(0, "@lsp.type.parameter.go", { fg = cache.var_fg, italic = true })
-	vim.api.nvim_set_hl(0, "@lsp.type.variable.go", { fg = cache.param_fg })
+	-- keep params red everywhere; locals/globals use the other color
+	if vim.g.colors_name == "base16-ayu-mirage" then
+		vim.api.nvim_set_hl(0, "@lsp.type.variable", { fg = cache.var_fg })
+		vim.api.nvim_set_hl(0, "@lsp.type.parameter", { fg = cache.param_fg, italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.parameter.declaration", { fg = cache.param_fg, italic = true })
+		vim.api.nvim_set_hl(0, "@lsp.typemod.parameter.readonly", { fg = cache.param_fg, italic = true })
 
-	-- fallbacks when semantic tokens are missing
-	vim.api.nvim_set_hl(0, "@variable.parameter.go", { fg = cache.var_fg, italic = true })
-	vim.api.nvim_set_hl(0, "@variable.go", { fg = cache.param_fg })
+		-- some servers mark params as variable+readonly; make that a param color too
+		vim.api.nvim_set_hl(0, "@lsp.typemod.variable.readonly", { fg = cache.param_fg, italic = true })
+
+		-- fallbacks when semantic tokens are missing
+		vim.api.nvim_set_hl(0, "@variable.parameter", { fg = cache.var_fg, italic = true })
+		vim.api.nvim_set_hl(0, "@variable", { fg = cache.param_fg })
+	end
 
 	-- your other tweaks
+	local hl = vim.api.nvim_get_hl(0, { name = "@lsp.type.namespace", link = true })
+	vim.api.nvim_set_hl(0, "@lsp.type.namespace", {
+		fg = hl.fg, -- reuse original color
+		underline = true,
+	})
+	hl = vim.api.nvim_get_hl(0, { name = "TSMethod", link = true })
+	vim.api.nvim_set_hl(0, "TSPunctBracket", { link = "TSMethod" })
+	vim.api.nvim_set_hl(0, "@punctuation.bracket", { link = "TSMethod" })
+
 	vim.api.nvim_set_hl(0, "Whitespace", { fg = "#595D6C", nocombine = true })
 	vim.api.nvim_set_hl(0, "NonText", { fg = "#595D6C", nocombine = true })
 	vim.api.nvim_set_hl(0, "SpecialKey", { fg = "#ee7777", nocombine = true })

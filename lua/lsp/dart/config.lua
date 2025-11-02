@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.shiftwidth = 2
 		vim.opt_local.tabstop = 2
 		vim.opt_local.softtabstop = 2
-		vim.opt_local.expandtab = true
+		-- vim.opt_local.expandtab = true
 
 		-- Disable autolist for dart files, because it interferes with flutter widget editing
 		-- require("autolist").setup({ enabled = false })

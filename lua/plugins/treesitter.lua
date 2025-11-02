@@ -79,6 +79,9 @@ return {
 			ts.setup({
 				-- Directory to install parsers and queries to
 				install_dir = vim.fn.stdpath("data") .. "/site",
+				indent = {
+					enable = true,
+				},
 			})
 			ts.install(languages)
 		end,

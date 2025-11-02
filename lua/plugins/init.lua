@@ -26,6 +26,7 @@ return {
 	{ import = "plugins.aerial" },
 	{ import = "plugins.lsp_signature" },
 	{ import = "plugins.dart-vim-plugin" },
+	{ import = "plugins.vim-argumentative" },
 
 	-- Windows, Panes, Splits, Buffers Management
 	{ import = "plugins.windows" },

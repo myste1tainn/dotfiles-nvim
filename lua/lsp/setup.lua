@@ -18,13 +18,6 @@ local mason_servers = require("lsp.servers")
 -- TODO: Find a way to do this from within mason-lspconfig
 -- Setup each language server
 for lang, server in pairs(mason_servers) do
-	local config = require("lsp." .. lang .. ".config")
-	local final_config = vim.tbl_deep_extend("force", {
-		flags = {
-			debounce_text_changes = 400,
-		},
-		capabilities = capabilities,
-	}, config)
 	if lang == "lua" then
 		require("neodev").setup()
 	elseif lang == "starlark" then
@@ -36,5 +29,18 @@ for lang, server in pairs(mason_servers) do
 	-- print("Setting up LSP server for " .. lang .. ": " .. server)
 	-- vim.lsp.config(server, final_config)
 	-- vim.lsp.enable(server)
+	local config = require("lsp." .. lang .. ".config")
+	config.settings = config.settings or {}
+	for lang, opts in pairs(config.settings or {}) do
+		if type(opts) == "table" then
+			opts.semanticTokens = true
+		end
+	end
+	local final_config = vim.tbl_deep_extend("force", {
+		flags = {
+			debounce_text_changes = 400,
+		},
+		capabilities = capabilities,
+	}, config)
 	require("lspconfig")[server].setup(final_config)
 end

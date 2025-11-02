@@ -127,7 +127,7 @@ return function(bufnr)
 
 	keymap({ "i", "c", "s" }, "<C-d>", function()
 		local mode = vim.api.nvim_get_mode().mode
-		local i_mode = i_mode_feedkeys("<C-o>l")
+		local i_mode = i_mode_feedkeys("<C-o>l<BS>")
 		if mode == "i" then
 			i_mode()
 		elseif mode == "S" or mode == "s" then
