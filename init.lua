@@ -255,3 +255,9 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 		vim.notify("Overseer templates reloaded", vim.log.levels.INFO)
 	end,
 })
+
+vim.cmd([[
+  highlight CurSearch guibg=#555555 guifg=NONE gui=bold
+  highlight Search guibg=#333333 guifg=NONE gui=bold
+  highlight IncSearch guibg=#444444 guifg=NONE gui=bold
+]])

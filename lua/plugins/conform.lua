@@ -17,6 +17,7 @@ return {
 				html = { "prettier" },
 				css = { "prettier" },
 				markdown = { "prettier" },
+				xml = { "prettierxml" },
 				sh = { "shfmt" },
 				bash = { "shfmt" },
 				zsh = { "shfmt" },
@@ -25,9 +26,24 @@ return {
 				starlark = { "buildifier" },
 			},
 			formatters = {
+				-- NOTE: Below prettier is from npm install -g, further below comes from Mason
+				prettierxml = {
+					command = "/usr/local/bin/prettier",
+					args = {
+						"--plugin=@prettier/plugin-xml",
+						"--wrap-attributes-threshold=3",
+						"--stdin-filepath",
+						"$FILENAME",
+					},
+					stdin = true,
+					timeout_ms = 10000,
+				},
 				prettier = {
 					command = "prettier",
-					args = { "--stdin-filepath", "$FILENAME" },
+					args = {
+						"--stdin-filepath",
+						"$FILENAME",
+					},
 					stdin = true,
 				},
 				dart_format = {

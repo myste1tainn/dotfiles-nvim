@@ -2,6 +2,7 @@ return {
 	"nvim-telescope/telescope.nvim",
 	cmd = "Telescope",
 	dependencies = {
+		{ "ibhagwan/fzf-lua", dependencies = { "nvim-tree/nvim-web-devicons" } },
 		"nvim-lua/plenary.nvim",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 },
 		"nvim-telescope/telescope-ui-select.nvim",

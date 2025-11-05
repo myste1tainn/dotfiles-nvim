@@ -22,6 +22,7 @@
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
   "edgy.nvim": { "branch": "main", "commit": "541705c0e2d67c8925d1c072ac11d30a644ca6a7" },
+  "fzf-lua": { "branch": "main", "commit": "a8458b79a957a6e3e217d84106a0fd4b9470ff4c" },
   "gitsigns.nvim": { "branch": "main", "commit": "1ee5c1fd068c81f9dd06483e639c2aa4587dc197" },
   "gruvbox.nvim": { "branch": "main", "commit": "5e0a460d8e0f7f669c158dedd5f9ae2bcac31437" },
   "img-clip.nvim": { "branch": "main", "commit": "e7e29f0d07110405adecd576b602306a7edd507a" },
