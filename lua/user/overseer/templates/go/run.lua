@@ -1,9 +1,7 @@
 local path_util = require("utils.path")
 local common = require("user.overseer.templates.go.common")
 local state = require("user.overseer.state")
-
-local template_name = "1. Run"
-
+local template_name = "Go: 1. Run"
 return {
 	name = template_name,
 	condition = common.condition,
