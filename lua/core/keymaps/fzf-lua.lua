@@ -13,9 +13,9 @@ return function(bufnr)
 	keymap("n", "<leader>f", "<Cmd>Telescope<CR>", { desc = "Launch Telescope", silent = true })
 	keymap("n", "<leader>ff", "<Cmd>Telescope find_files<CR>", { desc = "Launch Telescope find_files", silent = true })
 	keymap("n", "<leader>fl", "<Cmd>Telescope live_grep<CR>", { desc = "Launch Telescope live_grep", silent = true })
-	keymap("n", "<leader>fw", function()
-		require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") })
-	end, { desc = "Grep current word under cursor", silent = true })
+	-- keymap("n", "<leader>fw", function()
+	-- 	require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") })
+	-- end, { desc = "Grep current word under cursor", silent = true })
 	keymap("n", "<leader>fb", "<Cmd>Telescope buffers<CR>", { desc = "Launch Telescope buffers", silent = true })
 	keymap("n", "<leader>fgg", "<Cmd>Telescope git_files<CR>", { desc = "Launch Telescope git_files", silent = true })
 	keymap(
@@ -42,30 +42,6 @@ return function(bufnr)
 
 	local fzf = require("fzf-lua")
 	keymap("n", "<leader>fd", fzf.lsp_document_symbols, { desc = "Launch Fzf lsp_document_symbols", silent = true })
-	-- keymap(
-	-- 	"n",
-	-- 	"<leader>fw",
-	-- 	vim.lsp.buf.workspace_symbol,
-	-- 	{ desc = "Launch Fzf lsp_workspace_symbols", silent = true }
-	-- )
-	--
-	-- in your config
-	local fzf = require("fzf-lua")
-	local smart = require("core.keymaps.lsp_smart")
-
-	-- <leader>sa => aggregate all workspace symbols then fuzzy-search in fzf
-	vim.keymap.set("n", "<leader>fw", function()
-		vim.notify("Building workspace symbol catalog…", vim.log.levels.INFO)
-		smart.workspace_symbols_catalog({ max = 4000 }, function(items)
-			if #items == 0 then
-				return vim.notify("No workspace symbols found", vim.log.levels.WARN)
-			end
-			fzf.quickfix({
-				items = items,
-				fzf_opts = { ["--prompt"] = "WSymbols> " },
-			})
-		end)
-	end, { desc = "All workspace symbols (aggregated)" })
 	-- keymap(
 	-- 	"n",
 	-- 	"<leader>fw",

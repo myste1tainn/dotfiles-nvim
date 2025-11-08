@@ -98,6 +98,11 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
 
+require("user.workspace_symbol_live")
+-- TODO: Move this to proper key setup
+vim.keymap.set("n", "<leader>fw", function()
+	vim.cmd("WorkspaceSymbolSearch")
+end, { desc = "Live LSP Workspace Symbols" })
 require("monkey-patches.avante")
 require("user.autocommands.buffers")
 require("user.autocommands.tabs")
@@ -245,19 +250,3 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- TODO: Find a way to hot reload Overseer templates, below does not work as expected
 -- Reload task templates on BufWritePost for .nvim.lua files
-vim.api.nvim_create_autocmd("BufWritePost", {
-	pattern = "*.nvim.lua",
-	callback = function()
-		vim.cmd("luafile %")
-		require("overseer").clear_task_cache()
-		require("overseer.template").cache = {} -- ⚠ force wipe
-		require("overseer.template").user_template_provider = nil -- if using user templates
-		vim.notify("Overseer templates reloaded", vim.log.levels.INFO)
-	end,
-})
-
-vim.cmd([[
-  highlight CurSearch guibg=#555555 guifg=NONE gui=bold
-  highlight Search guibg=#333333 guifg=NONE gui=bold
-  highlight IncSearch guibg=#444444 guifg=NONE gui=bold
-]])
