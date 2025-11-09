@@ -1,9 +1,17 @@
 return {
 	"folke/noice.nvim",
 	config = function()
-		require("notify").setup({ background_colour = "#000000" })
+		require("notify").setup({
+			background_colour = "#000000",
+			top_down = false,
+		})
+		vim.notify = require("notify")
 		---@diagnostic disable-next-line: missing-fields
 		require("noice").setup({
+			-- 1) Route *all* vim.notify messages to our popup view
+			routes = {
+				{ filter = { event = "notify" }, view = "notify" },
+			},
 			popupmenu = {
 				backend = "cmp", -- <─ key line
 			},
@@ -37,8 +45,7 @@ return {
 					hl_group = "NoiceVirtualText",
 				},
 				notify = {
-					backend = { "snacks", "notify" },
-					fallback = "mini",
+					backend = "notify",
 					format = "notify",
 					replace = false,
 					merge = false,
