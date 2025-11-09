@@ -4,6 +4,8 @@ local neotest_fns = require("user.neotest.functions")
 local keymap_util = require("utils.keymap")
 local panes_util = require("utils.panes")
 local trouble = require("trouble")
+local qf = require("object.quickfix")
+local dg = require("object.diagnostics")
 local function toggle_neotest()
 	panes_util.toggle_pane({
 		pane_open_predicate = {
@@ -16,29 +18,28 @@ local function toggle_neotest()
 		on_pane_existed = function(win)
 			-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 			-- Having them both is counterproductive
-			trouble.close("quickfix")
-			trouble.close("diagnostics")
+			qf.close()
+			dg.close()
 			vim.api.nvim_set_current_win(win.winid)
 		end,
 		on_pane_not_existed = function()
 			-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 			-- Having them both is counterproductive
-			trouble.close("quickfix")
-			trouble.close("diagnostics")
+			qf.close()
+			dg.close()
 			-- neotest.output_panel.open()
 			neotest.summary.open()
-			panes_util.focus_win("neotest-output-panel")
+			panes_util.focus_win("neotest-summary")
 		end,
 	})
 end
 
 return function(bufnr)
 	-- Output and summary toggles
-	keymap("n", "<leader>tt", toggle_neotest, { desc = "Toggle output_panel and summary", silent = true })
-	keymap_util.map_for_all_and_terminal("<M-7>", toggle_neotest, { desc = "Open NoiceAll", silent = true })
+	keymap_util.map_for_all_and_terminal("<M-7>", toggle_neotest, { desc = "Toggle Neotest", silent = true })
 
 	-- Open actions
-	keymap("n", "<leader>to", function()
+	keymap("n", "<M-&>", function()
 		neotest.output.open({ enter = true })
 	end, { desc = "Open output at cursor and focused it", silent = true })
 
