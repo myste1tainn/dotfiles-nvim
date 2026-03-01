@@ -92,7 +92,6 @@ return {
 			analysis = {
 				reportMissingTypeStubs = false,
 				reportMissingImports = false,
-				-- NOTE: you have typos below; see notes after the code
 				reportMissingModuleSource = false,
 				typeCheckingMode = "recommended",
 				autoSearchPaths = true,

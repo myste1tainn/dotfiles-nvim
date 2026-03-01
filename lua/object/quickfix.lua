@@ -113,7 +113,7 @@ local function cabbr(lhs, rhs)
 		rhs,
 		lhs
 	)
-	print("running cmd:", cmd)
+	-- print("running cmd:", cmd)
 	vim.cmd(cmd)
 end
 
