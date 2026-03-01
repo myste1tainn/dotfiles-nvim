@@ -29,36 +29,9 @@ return function(bufnr)
 		-- toggle_fn()
 	end, { desc = "Run Overseer Task", silent = true })
 	keymap_util.map_for_all_and_terminal({ keys = "<leader>rl", modes = { "n", "v" } }, function()
-		vim.cmd("OverseerQuickAction restart")
+		vim.cmd("OverseerTaskAction")
 		toggle_fn()
 	end, { desc = "Restart Overseer Task", silent = true })
 	-- keymap_util.map_for_all_and_terminal("<M-8>", toggle_fn, { desc = "Toggle Overseer", silent = true })
 	keymap_util.map_for_all_and_terminal("<M-8>", toggle_fn, { desc = "Toggle Overseer", silent = true })
-
-	local function smart_stop_overseer_tasks()
-		-- If dap is running then stop dap sessions first
-		local dap = require("dap")
-		if dap.session() then
-			dap.terminate()
-		end
-
-		-- Then if overseer tasks are running, stop them
-		local overseer = require("overseer")
-		local tasks = overseer.list_tasks()
-		local has_running_tasks = false
-		for _, task in ipairs(tasks) do
-			if task:is_running() then
-				has_running_tasks = true
-				break
-			end
-		end
-		if has_running_tasks then
-			vim.cmd("OverseerQuickAction stop")
-		end
-	end
-	keymap_util.map_for_all_and_terminal(
-		"<M-s>",
-		smart_stop_overseer_tasks,
-		{ desc = "Stop last run overseer tasks", silent = true }
-	)
 end

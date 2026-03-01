@@ -1,19 +1,50 @@
+local path_util = require("utils.path")
 local common = require("user.overseer.templates.dart.common")
 local state = require("user.overseer.state")
+local template_name = "Flutter: 1. Run"
 
-local template_name = "1. Run"
+function device_choices()
+	local choices = {}
+	local devices = common.get_connected_devices()
+	for _, d in ipairs(devices) do
+		table.insert(choices, string.format("%s (%s) - %s", d.name, d.details, d.platform))
+	end
+	return choices
+end
+
+local function file_choices()
+	local root, files = path_util.root_and_files_under_pattern("pubspec.yaml", "dart")
+	files = path_util.convert_to_relative_path(root)(files)
+	root = path_util.convert_to_relative_path()(root)
+	files = vim.iter(files)
+		:filter(function(file)
+			return file:match("/main.*%.dart$")
+		end)
+		:totable()
+	local main_file = vim.iter(files):find(function(file)
+		return file:match("/main%.dart$")
+	end) or files[1]
+	return main_file, files
+end
 
 return {
 	name = template_name,
 	condition = common.condition,
 	params = function()
 		local last_params = state.get_last_params(template_name)
+		local main_file, files = file_choices()
 		return {
+			main = {
+				type = "enum",
+				choices = files,
+				default = last_params.main or main_file or "lib/main.dart",
+				desc = "Main entry file",
+			},
 			device = {
-				type = "choices",
-				optional = true,
-				default = last_params.device or "",
-				choices = common.get_connected_devices(),
+				type = "enum",
+				choices = device_choices(),
+				optional = false,
+				default = last_params.device or nil,
 				desc = "Device ID to run the app on, empty for default device",
 			},
 			debug = { type = "boolean", default = last_params.debug or false, desc = "Run in debug mode" },
@@ -21,28 +52,42 @@ return {
 	end,
 	builder = function(params)
 		state.set_last_params(template_name, params)
-		print(params.device)
-		return {}
-		-- local components = {
-		-- 	"default",
-		-- 	{
-		-- 		"on_output_quickfix",
-		-- 		errorformat = "%f:%l:%c:%m",
-		-- 	},
-		-- }
-		-- if params.debug then
-		-- -- TODO: Implement debug run configuration
-		-- else
-		-- 	return {
-		-- 		strategy = "jobstart",
-		-- 		name = "Run " .. params.file .. " in " .. params.root,
-		-- 		cmd = { "flutter" },
-		-- 		args = {
-		-- 			"run",
-		-- 			params.device ~= "" and { "-d", params.device } or {},
-		-- 		},
-		-- 		components = components,
-		-- 	}
-		-- end
+		local components = {
+			-- "default",
+			-- {
+			-- 	"on_output_quickfix",
+			-- 	errorformat = "%f:%l:%c:%m",
+			-- },
+		}
+		local device_id = nil
+		if params.device ~= "" then
+			local name, details, platform = params.device:match("^(.-) %((.-)%) %- (.-)$")
+			for _, d in ipairs(common.get_connected_devices()) do
+				if d.name == name and d.details == details and d.platform == platform then
+					device_id = d.id
+					break
+				end
+			end
+		end
+		if not device_id then
+			-- throw error if device_id is not found
+			vim.notify("Device not found: " .. params.device, vim.log.levels.ERROR)
+			return
+		end
+		if params.debug then
+		-- TODO: Implement debug run configuration
+		else
+			return {
+				strategy = "jobstart",
+				name = "flutter run",
+				cmd = { "flutter" },
+				args = {
+					"run",
+					"--target=" .. params.main,
+					unpack({ "-d", device_id }),
+				},
+				components = components,
+			}
+		end
 	end,
 }

@@ -2,13 +2,18 @@ return {
 	"stevearc/conform.nvim",
 	config = function()
 		require("conform").setup({
+			format_after_save = {
+				timeout_ms = 500,
+				lsp_format = "fallback",
+				async = true,
+			},
 			formatters_by_ft = {
 				-- go = { "goimports" },
 				go = { "gofumpt" },
 				python = { "black" },
 				lua = { "stylua" },
 				ruby = { "rubocop" },
-				dart = { "dart_format" },
+				-- dart = { "dart_format" },
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				javascriptreact = { "prettier" },
@@ -46,12 +51,12 @@ return {
 					},
 					stdin = true,
 				},
-				dart_format = {
-					-- command = "dart",
-					-- args = { "format", "--output", "show", "--line-length", "80", "$FILENAME" },
-					-- stdin = true,
-					timeout_ms = 10000, -- 10 seconds
-				},
+				-- dart_format = {
+				-- command = "dart",
+				-- args = { "format", "--output", "show", "--line-length", "80", "$FILENAME" },
+				-- stdin = true,
+				-- timeout_ms = 10000, -- 10 seconds
+				-- },
 			},
 		})
 

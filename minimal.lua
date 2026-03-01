@@ -56,12 +56,12 @@ require("lazy").setup({
 						sorting = {
 							priority_weight = 2, -- bigger number ↔ later comparators hurt less
 							comparators = {
-								compare.offset, -- start-of-word matches win
-								compare.exact, -- exact prefix wins
+								compare.kind, -- functions > variables > snippets … (optional)
 								compare.score, -- LSP / source fuzzy score
+								compare.exact, -- exact prefix wins
+								compare.offset, -- start-of-word matches win
 								compare.recently_used, -- what you confirmed before
 								compare.locality, -- identifiers closer to the cursor
-								compare.kind, -- functions > variables > snippets … (optional)
 								compare.sort_text, -- fallback to server-provided sortText
 								compare.length, -- shorter names win if still tied
 								compare.order, -- final deterministic tie-break
@@ -98,7 +98,7 @@ require("lazy").setup({
 							end, { "i", "s", "c" }),
 							["<C-b>"] = cmp.mapping.scroll_docs(-4),
 							["<C-f>"] = cmp.mapping.scroll_docs(4),
-							["<C-Space>"] = cmp.mapping.complete(),
+							["<M-Space>"] = cmp.mapping.complete(),
 							["<CR>"] = cmp.mapping.confirm({ select = true }),
 
 							-- Accept Copilot suggestion even when cmp menu is open

@@ -25,6 +25,9 @@ end
 
 local safe_cmd = function(cmd)
 	local ok, err = pcall(vim.cmd, cmd)
+	if not ok and err then
+		vim.notify("Error executing command '" .. cmd .. "': " .. err, vim.log.levels.DEBUG)
+	end
 end
 
 local function with_post_move(fn)
@@ -56,7 +59,7 @@ function M.prev()
 		else
 			safe_cmd("cprevious")
 		end
-	end)
+	end)()
 end
 
 function M.is_open()
