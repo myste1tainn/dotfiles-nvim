@@ -20,15 +20,8 @@ local mason_servers = require("lsp.servers")
 for lang, server in pairs(mason_servers) do
 	if lang == "lua" then
 		require("neodev").setup()
-	elseif lang == "starlark" then
-		vim.lsp.enable("tilt_ls")
-		-- Original value can be see in the servers.lua, but in my case
-		-- I just want to use it with tilt for now, not the whole starlark language
-		server = "tilt_ls"
 	end
-	-- print("Setting up LSP server for " .. lang .. ": " .. server)
-	-- vim.lsp.config(server, final_config)
-	-- vim.lsp.enable(server)
+
 	local config = require("lsp." .. lang .. ".config")
 	config.settings = config.settings or {}
 	for lang, opts in pairs(config.settings or {}) do
@@ -42,5 +35,13 @@ for lang, server in pairs(mason_servers) do
 		},
 		capabilities = capabilities,
 	}, config)
-	require("lspconfig")[server].setup(final_config)
+
+	-- require("lspconfig")[server].setup(final_config)
+	if lang == "starlark" then
+		server = "tilt_ls"
+		-- Original value can be see in the servers.lua, but in my case
+		-- I just want to use it with tilt for now, not the whole starlark language
+	end
+	vim.lsp.config(server, final_config)
+	vim.lsp.enable(server)
 end

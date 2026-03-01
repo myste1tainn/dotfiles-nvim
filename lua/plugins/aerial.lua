@@ -66,7 +66,6 @@ return {
 			-- Jump to symbol in source window when the cursor moves
 			autojump = true,
 		})
-		print("Aerial.nvim configured successfully!")
 		-- You probably also want to set a keymap to toggle aerial
 		keymap({ "n", "v", "i" }, "<M-2>", function()
 			-- keymap({ "n", "v", "i" }, "<C-c>", function()
