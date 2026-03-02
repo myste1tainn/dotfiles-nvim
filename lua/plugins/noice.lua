@@ -16,6 +16,13 @@ return {
 				backend = "cmp", -- <─ key line
 			},
 			cmdline = {
+				format = {
+					cmdline = { lang = "" },
+					search_down = { lang = "" },
+					search_up = { lang = "" },
+					filter = { lang = "" },
+					lua = { lang = "" },
+				},
 				enabled = true,
 				view = "cmdline_popup", -- NOT "cmdline_popup"
 			},
