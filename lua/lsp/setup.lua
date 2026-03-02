@@ -15,6 +15,7 @@ capabilities.inlayHint = { dynamicRegistration = false }
 -- Import the list of servers from mason configuration
 local mason_servers = require("lsp.servers")
 
+local server_to_config = {}
 -- TODO: Find a way to do this from within mason-lspconfig
 -- Setup each language server
 for lang, server in pairs(mason_servers) do
@@ -24,7 +25,7 @@ for lang, server in pairs(mason_servers) do
 
 	local config = require("lsp." .. lang .. ".config")
 	config.settings = config.settings or {}
-	for lang, opts in pairs(config.settings or {}) do
+	for _, opts in pairs(config.settings or {}) do
 		if type(opts) == "table" then
 			opts.semanticTokens = true
 		end
@@ -44,4 +45,54 @@ for lang, server in pairs(mason_servers) do
 	end
 	vim.lsp.config(server, final_config)
 	vim.lsp.enable(server)
+	server_to_config[server] = final_config
 end
+
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function(ev)
+		local exlude_filetypes = { "markdown", "text", "gitcommit", "notify", "toggleterm", "TelescopePrompt" }
+		if vim.tbl_contains(exlude_filetypes, vim.bo.filetype) then
+			return
+		end
+		local server = mason_servers[vim.bo.filetype]
+		if not server then
+			-- For the case that I know the filetype will not matched the server name in the mason_servers, I will hardcode the mapping here
+			if vim.bo.filetype == "typescript" then
+				server = mason_servers["javascript"]
+			elseif vim.bo.filetype == "javascriptreact" then
+				server = mason_servers["javascript"]
+			elseif vim.bo.filetype == "typescriptreact" then
+				server = mason_servers["javascript"]
+			else
+				print("No LSP server configured for filetype " .. vim.bo.filetype)
+				return
+			end
+		end
+		local final_config = server_to_config[server]
+		-- prevent duplicate attach
+		for _, client in ipairs(vim.lsp.get_clients({ bufnr = ev.buf })) do
+			if client.name == server then
+				return
+			end
+		end
+
+		local root
+		if type(final_config.root_dir) == "function" then
+			root = final_config.root_dir(ev.buf)
+		else
+			root = final_config.root_dir
+		end
+
+		if not root then
+			print("No root directory found for " .. server .. " in buffer " .. ev.buf)
+			return -- no root found, don't start
+		end
+
+		vim.lsp.start({
+			name = server,
+			cmd = final_config.cmd,
+			filetypes = final_config.filetypes,
+			root_dir = root,
+		})
+	end,
+})
