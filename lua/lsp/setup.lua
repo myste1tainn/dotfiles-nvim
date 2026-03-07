@@ -50,8 +50,18 @@ end
 
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(ev)
-		local exlude_filetypes =
-			{ "markdown", "text", "gitcommit", "notify", "toggleterm", "noice", "TelescopeResults", "TelescopePrompt" }
+		local exlude_filetypes = {
+			"markdown",
+			"text",
+			"gitcommit",
+			"notify",
+			"toggleterm",
+			"noice",
+			"TelescopeResults",
+			"TelescopePrompt",
+			"OverseerOutput",
+			"OverseerList",
+		}
 		if vim.tbl_contains(exlude_filetypes, vim.bo.filetype) then
 			return
 		end
