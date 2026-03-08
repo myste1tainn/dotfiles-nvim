@@ -61,6 +61,7 @@ vim.api.nvim_create_autocmd("FileType", {
 			"TelescopePrompt",
 			"OverseerOutput",
 			"OverseerList",
+			"NeogitPopup",
 		}
 		if vim.tbl_contains(exlude_filetypes, vim.bo.filetype) then
 			return
