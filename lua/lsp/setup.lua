@@ -62,6 +62,12 @@ vim.api.nvim_create_autocmd("FileType", {
 			"OverseerOutput",
 			"OverseerList",
 			"NeogitPopup",
+			"Avante",
+			"AvanteInput",
+			"AvanteTodos",
+			"AvanteSelectedFiles",
+			"NeogitCommitMessage",
+			"NeogitConsole",
 		}
 		if vim.tbl_contains(exlude_filetypes, vim.bo.filetype) then
 			return

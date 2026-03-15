@@ -8,21 +8,22 @@ return {
 			-- provider = "openai",
 			auto_suggestions_provider = "copilot",
 			-- auto_suggestions_provider = "openai",
-			api_key = os.getenv("OPENAI_API_KEY"),
+			-- api_key = os.getenv("OPENAI_API_KEY"),
 			providers = {
 				openai = {
 					-- model = "gpt-4o-mini",
 					-- model = "gpt-4o",
-					model = "gpt-4.1",
+					-- model = "gpt-5",
+					model = "copilot",
 				},
 			},
-			dual_boost = {
-				enabled = true,
-				first_provider = "openai",
-				second_provider = "copilot",
-				prompt = "Based on the two reference outputs below, generate a response that incorporates elements from both but reflects your own judgment and unique perspective. Do not provide any explanation, just give the response directly. Reference Output 1: [{{provider1_output}}], Reference Output 2: [{{provider2_output}}]",
-				timeout = 60000, -- Timeout in milliseconds
-			},
+			-- dual_boost = {
+			-- 	enabled = true,
+			-- 	first_provider = "openai",
+			-- 	second_provider = "copilot",
+			-- 	prompt = "Based on the two reference outputs below, generate a response that incorporates elements from both but reflects your own judgment and unique perspective. Do not provide any explanation, just give the response directly. Reference Output 1: [{{provider1_output}}], Reference Output 2: [{{provider2_output}}]",
+			-- 	timeout = 60000, -- Timeout in milliseconds
+			-- },
 			behaviour = {
 				auto_suggestions = false, -- Experimental stage
 				auto_set_highlight_group = true,
@@ -33,7 +34,7 @@ return {
 				enable_token_counting = true, -- Whether to enable token counting. Default to true.
 			},
 			windows = {
-				position = "bottom",
+				-- position = "bottom",
 				-- position = "right",
 				-- position = "smart",
 				-- input = {
