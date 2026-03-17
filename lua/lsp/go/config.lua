@@ -13,6 +13,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 return {
+	cmd = { "gopls" },
 	on_attach = function(client, bufnr) end,
 	root_dir = function(fname)
 		local util = require("lspconfig.util")
