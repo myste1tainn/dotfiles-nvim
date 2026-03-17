@@ -107,8 +107,8 @@ vim.api.nvim_create_autocmd("FileType", {
 			return -- no root found, don't start
 		end
 
-		print("Starting LSP server " .. server .. " for filetype " .. vim.bo.filetype .. " in buffer " .. ev.buf)
-		print("Final config passed to lsp.start: " .. vim.inspect(final_config))
+		-- print("Starting LSP server " .. server .. " for filetype " .. vim.bo.filetype .. " in buffer " .. ev.buf)
+		-- print("Final config passed to lsp.start: " .. vim.inspect(final_config))
 		vim.lsp.start({
 			name = server,
 			cmd = final_config.cmd,
