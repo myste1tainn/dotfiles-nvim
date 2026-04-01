@@ -250,3 +250,18 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- TODO: Find a way to hot reload Overseer templates, below does not work as expected
 -- Reload task templates on BufWritePost for .nvim.lua files
+
+---- For neovide
+-- Make Option+key work as Meta in Neovide on macOS
+vim.g.neovide_input_macos_option_key_is_meta = "only_left"
+---- Command key combinations
+-- paste
+vim.keymap.set({ "n", "v", "i", "c" }, "<D-v>", function()
+	vim.api.nvim_paste(vim.fn.getreg("+"), true, -1)
+end)
+-- copy
+vim.keymap.set({ "v" }, "<C-c>", '"+y', { desc = "Copy to system clipboard" })
+-- cut
+vim.keymap.set({ "v" }, "<D-x>", '"+d', { desc = "Cut to system clipboard" })
+-- Select all
+vim.keymap.set("n", "<D-a>", "ggVG", { desc = "Select All" })

@@ -69,6 +69,9 @@ vim.api.nvim_create_autocmd("FileType", {
 			"NeogitCommitMessage",
 			"NeogitConsole",
 			"neo-tree",
+			"lazy",
+			"lazy_backdrop",
+			"cmp_docs",
 		}
 		if vim.tbl_contains(exlude_filetypes, vim.bo.filetype) then
 			return

@@ -12,24 +12,24 @@ local opts = {
 -- TODO: Find a non-conflicting keymap for this
 -- keymap({ "n", "v" }, "<C-e>", "<Cmd>ObsidianExtractNote<CR>", opts)
 -- linking and navigation management
-keymap("n", "gt", ":ObsidianTags ", opts)
+keymap("n", "gt", ":Obsidian tags ", opts)
 
-local vaults_path = vim.fn.expand("~/Library/CloudStorage/GoogleDrive-a.keereena@gmail.com/My Drive")
+local vaults_path = vim.fn.expand("~/Library/CloudStorage/Dropbox/Apps/remotely-save/The 2nd Brain")
 vim.api.nvim_create_autocmd("BufReadPre", {
 	pattern = "*.md", -- match broadly
 	callback = function(args)
 		local full_path = vim.api.nvim_buf_get_name(args.buf)
 		if full_path:sub(1, #vaults_path) == vaults_path then
 			-- linking and navigation management
-			keymap({ "n", "v", "i" }, "<C-l>", "<Esc><Cmd>ObsidianLinks<CR>", opts)
-			keymap({ "n", "v" }, "<C-k>", "<Cmd>ObsidianLink<CR>", opts)
-			keymap({ "n", "v" }, "<C-j>", "<Cmd>ObsidianLinkNew<CR>", opts)
-			keymap("n", "gd", "<Cmd>ObsidianFollowLink<CR>", opts)
-			keymap("n", "gr", "<Cmd>ObsidianBacklinks<CR>", opts)
-			keymap("n", "gR", ":ObsidianRename ", opts)
+			keymap({ "n", "v", "i" }, "<C-l>", "<Esc><Cmd>Obsidian links<CR>", opts)
+			keymap({ "n", "v" }, "<C-k>", "<Cmd>Obsidian link<CR>", opts)
+			keymap({ "n", "v" }, "<C-j>", "<Cmd>Obsidian link_new<CR>", opts)
+			keymap("n", "gd", "<Cmd>Obsidian followLink<CR>", opts)
+			keymap("n", "gr", "<Cmd>Obsidian backlinks<CR>", opts)
+			keymap("n", "gR", ":Obsidian rename ", opts)
 
 			-- editing
-			keymap({ "n", "v", "i" }, ",<C-v>", "<Esc><Cmd>ObsidianPasteImg ", opts)
+			keymap({ "n", "v", "i" }, ",<C-v>", "<Esc><Cmd>Obsidian paste_img ", opts)
 
 			-- set conceallevel to 2 for better link visibility
 			vim.api.nvim_buf_set_option(args.buf, "conceallevel", 3)
@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd("BufReadPre", {
 return {
 	-- Obsidian.nvim for vaults and linking
 	{
-		"epwalsh/obsidian.nvim",
+		"obsidian-nvim/obsidian.nvim",
 		version = "*",
 		lazy = false,
 		-- event = { "BufReadPre " .. vaults_path .. "/**.md" },
