@@ -37,12 +37,12 @@ for lang, server in pairs(mason_servers) do
 		capabilities = capabilities,
 	}, config)
 
-	-- require("lspconfig")[server].setup(final_config)
-	if lang == "starlark" then
-		server = "tilt_ls"
-		-- Original value can be see in the servers.lua, but in my case
-		-- I just want to use it with tilt for now, not the whole starlark language
-	end
+	-- -- require("lspconfig")[server].setup(final_config)
+	-- if lang == "starlark" then
+	-- 	server = "tilt_ls"
+	-- 	-- Original value can be see in the servers.lua, but in my case
+	-- 	-- I just want to use it with tilt for now, not the whole starlark language
+	-- end
 	vim.lsp.config(server, final_config)
 	vim.lsp.enable(server)
 	server_to_config[server] = final_config

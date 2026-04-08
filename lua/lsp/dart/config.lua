@@ -103,8 +103,12 @@ end, {})
 return {
 	cmd = { "dart", "language-server", "--protocol=lsp" },
 	filetypes = { "dart" },
-	root_dir = function(fname)
-		return lspconfig.util.root_pattern("pubspec.yaml")(fname)
+	root_dir = function(bufnr)
+		local path = vim.api.nvim_buf_get_name(bufnr)
+		if path == "" then
+			return
+		end
+		return lspconfig.util.root_pattern("pubspec.yaml")(path)
 	end,
 	-- init_options = {
 	-- },

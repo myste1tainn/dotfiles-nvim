@@ -37,9 +37,14 @@ cfg = {
 return {
 	filetypes = { "starlark", "tiltfile" },
 	on_attach = function(client, bufnr) end,
-	root_dir = function(fname)
+	root_dir = function(bufnr)
+		local path = vim.api.nvim_buf_get_name(bufnr)
+		if path == "" then
+			return
+		end
 		local util = require("lspconfig.util")
-		return util.root_pattern("Tiltfile")(fname) or util.find_git_ancestor(fname)
+		return util.root_pattern("Tiltfile")(path)
+			or vim.fs.dirname(vim.fs.find({ ".git" }, { upward = true, path = path })[1])
 	end,
 	settings = {
 		starpls = cfg,

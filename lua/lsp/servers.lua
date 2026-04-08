@@ -9,6 +9,7 @@ return {
 	groovy = "groovyls",
 	xml = "lemminx",
 	rust = "rust_analyzer",
-	starlark = "bzl",
+	starlark = "starlark_rust",
 	dart = "dartls",
+	json = "jsonls",
 }
