@@ -25,6 +25,7 @@ return {
 	{ import = "plugins.trouble" },
 	{ import = "plugins.aerial" },
 	{ import = "plugins.lsp_signature" },
+	{ import = "plugins.nvim-lint" },
 	{ import = "plugins.dart-vim-plugin" },
 	{ import = "plugins.vim-argumentative" },
 
@@ -33,4 +34,8 @@ return {
 	{ import = "plugins.edgy" },
 	{ import = "plugins.bufresize" },
 	{ import = "plugins.gitsigns" },
+
+	-- LikeC4
+	{ import = "plugins.likec4" },
+	{ import = "plugins.plantuml-syntax" },
 }

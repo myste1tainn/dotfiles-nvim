@@ -1,9 +1,10 @@
 return {
 	"hrsh7th/nvim-cmp",
+	event = { "InsertEnter", "CmdlineEnter" },
 	dependencies = {
 		"L3MON4D3/LuaSnip",
 		"zbirenbaum/copilot-cmp", -- Copilot integration
-		{ "hrsh7th/cmp-cmdline", lazy = false },
+		"hrsh7th/cmp-cmdline",
 		"hrsh7th/cmp-path",
 		"MeanderingProgrammer/render-markdown.nvim", -- Markdown rendering support
 		{

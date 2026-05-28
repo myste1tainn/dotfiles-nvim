@@ -1,5 +1,6 @@
 return {
 	"mason-org/mason.nvim",
+	event = "VeryLazy",
 	dependencies = {
 		"mason-org/mason-lspconfig.nvim",
 		"neovim/nvim-lspconfig",
@@ -14,7 +15,7 @@ return {
 		local server_names = {}
 		for _, server in pairs(servers) do
 			-- Change to the name that mason-lspconfig uses
-			if server == "dartls" then
+			if server == "dartls" or server == "plantuml_ls" then
 				goto continue
 			end
 			table.insert(server_names, server)

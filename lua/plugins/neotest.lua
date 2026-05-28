@@ -119,6 +119,7 @@ end
 return {
 	{
 		"nvim-neotest/neotest",
+		cmd = { "Neotest" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{

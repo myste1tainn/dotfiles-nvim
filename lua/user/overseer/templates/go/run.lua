@@ -1,6 +1,5 @@
 local path_util = require("utils.path")
 local common = require("user.overseer.templates.go.common")
-local state = require("user.overseer.state")
 local template_name = "Go: 1. Run"
 return {
 	name = template_name,
@@ -14,26 +13,24 @@ return {
 		local main_file = vim.iter(files):find(function(file)
 			return file:match("main%.go$")
 		end)
-		local last_params = state.get_last_params(template_name)
 		return {
 			file = {
 				type = "string",
-				default = last_params.file or main_file,
+				default = main_file,
 				choices = files,
 				desc = "Go file to run",
 			},
-			root = { type = "string", default = last_params.root or root, desc = "Root directory for the Go project" },
+			root = { type = "string", default = root, desc = "Root directory for the Go project" },
 			args = {
 				type = "list",
 				optional = true,
-				default = last_params.args or {},
+				default = {},
 				desc = "Arguments to pass to the program",
 			},
-			debug = { type = "boolean", default = last_params.debug or false, desc = "Run in debug mode" },
+			debug = { type = "boolean", default = false, desc = "Run in debug mode" },
 		}
 	end,
 	builder = function(params)
-		state.set_last_params(template_name, params)
 		local components = {
 			"default",
 			-- TODO: make this component common in go templates, along with cwd below

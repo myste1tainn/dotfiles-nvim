@@ -40,8 +40,7 @@ return function(bufnr)
 		{ desc = "Launch Telescope command_history", silent = true }
 	)
 
-	local fzf = require("fzf-lua")
-	keymap("n", "<leader>fd", fzf.lsp_document_symbols, { desc = "Launch Fzf lsp_document_symbols", silent = true })
+	keymap("n", "<leader>fd", function() require("fzf-lua").lsp_document_symbols() end, { desc = "Launch Fzf lsp_document_symbols", silent = true })
 	-- keymap(
 	-- 	"n",
 	-- 	"<leader>fw",

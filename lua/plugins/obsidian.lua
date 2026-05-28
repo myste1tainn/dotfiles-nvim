@@ -41,8 +41,7 @@ return {
 	{
 		"obsidian-nvim/obsidian.nvim",
 		version = "*",
-		lazy = false,
-		-- event = { "BufReadPre " .. vaults_path .. "/**.md" },
+		event = { "BufReadPre " .. vaults_path .. "/**.md" },
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("obsidian").setup({

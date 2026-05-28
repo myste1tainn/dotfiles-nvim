@@ -54,6 +54,18 @@ local languages = {
 	"css",
 	"sql",
 }
+
+-- Filetype detection for PlantUML
+vim.filetype.add({
+	extension = {
+		puml = "plantuml",
+		plantuml = "plantuml",
+		pu = "plantuml",
+		iuml = "plantuml",
+		wsd = "plantuml",
+	},
+})
+
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = {
 		"go.sum",

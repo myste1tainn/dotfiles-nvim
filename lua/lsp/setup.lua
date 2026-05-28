@@ -76,6 +76,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		if vim.tbl_contains(exlude_filetypes, vim.bo.filetype) then
 			return
 		end
+
 		local server = mason_servers[vim.bo.filetype]
 		if not server then
 			-- For the case that I know the filetype will not matched the server name in the mason_servers, I will hardcode the mapping here
@@ -90,6 +91,7 @@ vim.api.nvim_create_autocmd("FileType", {
 				return
 			end
 		end
+
 		local final_config = server_to_config[server]
 		-- prevent duplicate attach
 		for _, client in ipairs(vim.lsp.get_clients({ bufnr = ev.buf })) do
@@ -110,13 +112,18 @@ vim.api.nvim_create_autocmd("FileType", {
 			return -- no root found, don't start
 		end
 
-		-- print("Starting LSP server " .. server .. " for filetype " .. vim.bo.filetype .. " in buffer " .. ev.buf)
-		-- print("Final config passed to lsp.start: " .. vim.inspect(final_config))
-		vim.lsp.start({
+		-- if vim.bo.filetype == "javascript" then
+		-- 	print("Starting LSP server " .. server .. " for filetype " .. vim.bo.filetype .. " in buffer " .. ev.buf)
+		-- 	print("Final config passed to lsp.start: " .. vim.inspect(final_config))
+		-- end
+
+		-- Pass the full registered config so per-language on_attach, settings,
+		-- before_init, capabilities, etc. are honored. Override name and root_dir
+		-- with values resolved here.
+		local start_config = vim.tbl_extend("force", final_config, {
 			name = server,
-			cmd = final_config.cmd,
-			filetypes = final_config.filetypes,
 			root_dir = root,
 		})
+		vim.lsp.start(start_config)
 	end,
 })

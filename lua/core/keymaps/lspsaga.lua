@@ -36,10 +36,6 @@ return function(bufnr)
 	keymap("n", "grr", "<cmd>Lspsaga finder<cr>", opts)
 	keymap("n", "gri", "<cmd>Lspsaga finder<cr>", opts)
 
-	-- Additional lspsaga keymaps
-	-- Diagnostic jump
-	keymap("n", "<M-p>", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
-	keymap("n", "<M-n>", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
 	-- Show line diagnostics
 	keymap("n", "<M-d>", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
 end

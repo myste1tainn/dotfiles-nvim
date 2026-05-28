@@ -1,6 +1,5 @@
 local keymap = vim.keymap.set
 local panes_util = require("utils.panes")
-local neotest = require("neotest")
 local qf = require("object.quickfix")
 local dg = require("object.diagnostics")
 
@@ -45,7 +44,7 @@ return function(bufnr)
 				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 				-- Having them both is counterproductive
 				-- neotest.output_panel.close()
-				neotest.summary.close()
+				require("neotest").summary.close()
 				---@diagnostic disable-next-line: missing-fields
 				trouble.focus({ mode = "quickfix" }, {})
 			end,
@@ -53,7 +52,7 @@ return function(bufnr)
 				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 				-- Having them both is counterproductive
 				-- neotest.output_panel.close()
-				neotest.summary.close()
+				require("neotest").summary.close()
 
 				-- Trouble's diagnostics and quickfix windows are exclusive to each other for now
 				-- Having them both is counterproductive
@@ -82,7 +81,7 @@ return function(bufnr)
 				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 				-- Having them both is counterproductive
 				-- neotest.output_panel.close()
-				neotest.summary.close()
+				require("neotest").summary.close()
 				---@diagnostic disable-next-line: missing-fields
 				trouble.focus({ mode = "diagnostics" }, {})
 			end,
@@ -90,7 +89,7 @@ return function(bufnr)
 				-- Trouble's quickfix and neotest windowns are exclusive to each other for now
 				-- Having them both is counterproductive
 				-- neotest.output_panel.close()
-				neotest.summary.close()
+				require("neotest").summary.close()
 				trouble.close("quickfix")
 				trouble.open({ mode = "diagnostics", focus = true, win = { position = "bottom" } })
 			end,
@@ -126,6 +125,6 @@ return function(bufnr)
 	keymap({ "n", "v", "i" }, "<C-.>", qf.next, { desc = "Next Quickfix Item" })
 	keymap({ "n", "v", "i" }, "<C-,>", qf.prev, { desc = "Previous Quickfix Item" })
 
-	keymap({ "n", "v", "i" }, "<M-.>", dg.next, { desc = "Next diagnostics Item" })
-	keymap({ "n", "v", "i" }, "<M-,>", dg.prev, { desc = "Previous diagnostics Item" })
+	keymap({ "n", "v", "i" }, "<M-n>", dg.next, { desc = "Next diagnostics Item" })
+	keymap({ "n", "v", "i" }, "<M-p>", dg.prev, { desc = "Previous diagnostics Item" })
 end

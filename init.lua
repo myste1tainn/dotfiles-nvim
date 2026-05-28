@@ -7,6 +7,13 @@ vim.opt.smarttab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true -- simple smart C-like indent
 
+-- Font setup
+vim.o.guifont = "FantasqueSansM Nerd Font Mono,Sarabun:h16"
+vim.opt.linespace = 4
+vim.opt.encoding = "utf-8"
+vim.opt.fileencodings = "utf-8"
+-- นี่คือภาษาไทย แสดงได้ใในฟอนต์ที่รองรับเท่านั้น ตี๋น้อย
+
 -- Make sure filetype-based indents are on
 vim.cmd("filetype plugin indent on")
 

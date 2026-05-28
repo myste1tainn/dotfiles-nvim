@@ -12,4 +12,5 @@ return {
 	starlark = "starlark_rust",
 	dart = "dartls",
 	json = "jsonls",
+	plantuml = "plantuml_ls",
 }

@@ -1,6 +1,5 @@
 local path_util = require("utils.path")
 local common = require("user.overseer.templates.dart.common")
-local state = require("user.overseer.state")
 local template_name = "Flutter: 1. Run"
 
 function device_choices()
@@ -31,27 +30,25 @@ return {
 	name = template_name,
 	condition = common.condition,
 	params = function()
-		local last_params = state.get_last_params(template_name)
 		local main_file, files = file_choices()
 		return {
 			main = {
 				type = "enum",
 				choices = files,
-				default = last_params.main or main_file or "lib/main.dart",
+				default = main_file or "lib/main.dart",
 				desc = "Main entry file",
 			},
 			device = {
-				type = "enum",
+				type = "string",
 				choices = device_choices(),
 				optional = false,
-				default = last_params.device or nil,
+				default = nil,
 				desc = "Device ID to run the app on, empty for default device",
 			},
-			debug = { type = "boolean", default = last_params.debug or false, desc = "Run in debug mode" },
+			debug = { type = "boolean", default = false, desc = "Run in debug mode" },
 		}
 	end,
 	builder = function(params)
-		state.set_last_params(template_name, params)
 		local components = {
 			-- "default",
 			-- {

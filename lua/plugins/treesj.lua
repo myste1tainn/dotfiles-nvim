@@ -1,5 +1,6 @@
 return {
 	"Wansmer/treesj",
+	keys = { "<leader>j", "<leader>s", "<leader>m", "<leader>J", "<leader>S", "<leader>M" },
 	dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
 	config = function()
 		require("treesj").setup({

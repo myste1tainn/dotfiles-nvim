@@ -29,6 +29,7 @@ return {
 				java = { "google-java-format" },
 				rust = { "rustfmt" },
 				starlark = { "buildifier" },
+				yaml = { "prettier" },
 			},
 			formatters = {
 				-- NOTE: Below prettier is from npm install -g, further below comes from Mason
