@@ -18,64 +18,28 @@ return {
 		}, -- Git integration for completion
 	},
 	config = function()
+		-- TODO: This probably linked to the correct cmp module, but wrong file within
+		-- which then causes `cmp.setu` line to later have diagnostic hint
 		local cmp = require("cmp")
-		local compare = cmp.config.compare -- helper that exposes all built-ins
 		local luasnip = require("luasnip")
 
 		require("cmp_git").setup({
 			filetypes = { "gitcommit", "gitrebase" },
 		})
 
+		local common_mapping = require("plugins-config.nvim-cmp.mappings").common(cmp, luasnip)
+
+		vim.opt.completeopt = "menu,menuone,preinsert,preview"
+		---@diagnostic disable-next-line: redundant-parameter
 		cmp.setup({
-			preselect = cmp.PreselectMode.None, -- Preselect the first item in the completion menu
+			preselect = cmp.PreselectMode.Item, -- Preselect the first item in the completion menu
+			completeopt = "menu,menuone,preinsert,preview",
 			completion = {
-				completeopt = "menu,menuone,preview",
+				completeopt = "menu,menuone,preinsert,preview",
 			},
 			sorting = {
 				priority_weight = 2, -- bigger number ↔ later comparators hurt less
-				comparators = {
-					-- compare.kind, -- functions > variables > snippets … (optional)
-					compare.score, -- LSP / source fuzzy score
-					function(entry1, entry2)
-						local kind1 = entry1:get_kind()
-						local kind2 = entry2:get_kind()
-
-						-- See :h cmp.lsp.CompletionItemKind
-						local kind_priority = {
-							-- highest priority group: what you usually want inside {...} or arg lists
-							[cmp.lsp.CompletionItemKind.Field] = 0,
-							[cmp.lsp.CompletionItemKind.Property] = 0,
-							[cmp.lsp.CompletionItemKind.Variable] = 1,
-							[cmp.lsp.CompletionItemKind.TypeParameter] = 1,
-
-							-- mid: functions/methods (possible value completions)
-							[cmp.lsp.CompletionItemKind.Function] = 2,
-							[cmp.lsp.CompletionItemKind.Method] = 2,
-
-							-- low: keywords, snippets, text, etc.
-							[cmp.lsp.CompletionItemKind.Keyword] = 3,
-							[cmp.lsp.CompletionItemKind.Snippet] = 4,
-							[cmp.lsp.CompletionItemKind.Text] = 5,
-						}
-
-						local p1 = kind_priority[kind1] or 10
-						local p2 = kind_priority[kind2] or 10
-
-						if p1 < p2 then
-							return true
-						elseif p1 > p2 then
-							return false
-						end
-						-- if same priority, fall through to the next comparator
-					end,
-					compare.exact, -- exact prefix wins
-					compare.offset, -- start-of-word matches win
-					compare.recently_used, -- what you confirmed before
-					compare.locality, -- identifiers closer to the cursor
-					compare.sort_text, -- fallback to server-provided sortText
-					compare.length, -- shorter names win if still tied
-					compare.order, -- final deterministic tie-break
-				},
+				comparators = require("plugins-config.nvim-cmp.comparators"),
 			},
 			snippet = {
 				-- REQUIRED - you must specify a snippet engine
@@ -86,51 +50,7 @@ return {
 					-- vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
 				end,
 			},
-			mapping = {
-				["<Tab>"] = cmp.mapping.confirm({ select = true }),
-				["<C-n>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-					elseif luasnip.expand_or_jumpable() then
-						luasnip.expand_or_jump()
-					else
-						fallback()
-					end
-				end, { "i", "s", "c" }),
-				["<C-p>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-					elseif luasnip.jumpable(-1) then
-						luasnip.jump(-1)
-					else
-						fallback()
-					end
-				end, { "i", "s", "c" }),
-				["<C-b>"] = cmp.mapping.scroll_docs(-4),
-				["<C-f>"] = cmp.mapping.scroll_docs(4),
-				["<M-Space>"] = cmp.mapping.complete(),
-				["<CR>"] = cmp.mapping.confirm({ select = true }),
-
-				-- Accept Copilot suggestion even when cmp menu is open
-				-- ["<M-l>"] = cmp.mapping(function(fallback)
-				["<C-e>"] = cmp.mapping(function(fallback)
-					local copilot = require("copilot.suggestion")
-					if copilot.is_visible() then
-						copilot.accept()
-					elseif cmp.visible() then
-						cmp.close()
-					else
-						fallback()
-					end
-				end, { "i", "s", "c" }),
-				["<C-[>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.close()
-					else
-						fallback()
-					end
-				end, { "i", "s", "c" }),
-			},
+			mapping = vim.tbl_deep_extend("force", {}, common_mapping),
 			formatting = {
 				format = function(entry, vim_item)
 					vim_item.menu = ({
@@ -168,7 +88,7 @@ return {
 
 		-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 		cmp.setup.cmdline({ "/", "?" }, {
-			mapping = cmp.mapping.preset.cmdline(),
+			mapping = cmp.mapping.preset.cmdline(common_mapping),
 			sources = {
 				{ name = "buffer" },
 			},
@@ -176,12 +96,11 @@ return {
 
 		-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 		cmp.setup.cmdline(":", {
-			preselect = cmp.PreselectMode.None,
-			mapping = cmp.mapping.preset.cmdline({
-				["<CR>"] = cmp.mapping.confirm({ select = true }),
-			}),
+			preselect = cmp.PreselectMode.Item,
+			mapping = cmp.mapping.preset.cmdline(common_mapping),
+			completeopt = "menu,menuone,preinsert,preview",
 			completion = {
-				completeopt = "menu,menuone,preview",
+				completeopt = "menu,menuone,preinsert,preview",
 			},
 			sources = cmp.config.sources({
 				{ name = "path" },

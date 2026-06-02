@@ -30,13 +30,13 @@ return {
 			markdown_fns.cycle_list_type_visual()
 		end, { desc = "Cycle list type", silent = true })
 
-		vim.keymap.set("v", "<Tab>", function()
-			markdown_fns.indent_list_visual()
-		end, { desc = "Indent list item", silent = true })
+		-- vim.keymap.set("v", "<Tab>", function()
+		-- 	markdown_fns.indent_list_visual()
+		-- end, { desc = "Indent list item", silent = true })
 
-		vim.keymap.set("v", "<S-Tab>", function()
-			markdown_fns.unindent_list_visual()
-		end, { desc = "Unindent list item", silent = true })
+		-- vim.keymap.set("v", "<S-Tab>", function()
+		-- 	markdown_fns.unindent_list_visual()
+		-- end, { desc = "Unindent list item", silent = true })
 	end,
 	dependencies = {
 		-- {

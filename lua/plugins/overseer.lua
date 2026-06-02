@@ -5,6 +5,8 @@ return {
 		cmd = { "OverseerRun", "OverseerToggle", "OverseerOpen", "OverseerClose", "OverseerTaskAction" },
 		config = function()
 			-- refer to this https://github.com/stevearc/overseer.nvim/blob/master/doc/reference.md#parameters
+			-- TODO: CHeck why this "overseer" instance is mapped to "core.keymaps.overseer", when it should have been
+			-- overseer module, this indicates that there's something wrong within lua_ls setup
 			local overseer = require("overseer")
 			overseer.setup({
 				default_strategy = "jobstart",
@@ -44,7 +46,11 @@ return {
 			local orig_build = tmpl_mod.build_task_args
 			tmpl_mod.build_task_args = function(tmpl, opts, callback)
 				orig_build(tmpl, opts, function(err, task_defn, params)
-					if not err and task_defn and tmpl and tmpl.name
+					if
+						not err
+						and task_defn
+						and tmpl
+						and tmpl.name
 						and not vim.startswith(tostring(tmpl.name), "History #")
 					then
 						require("user.overseer.history").add(tmpl.name, params or {})
