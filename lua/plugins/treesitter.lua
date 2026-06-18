@@ -53,6 +53,9 @@ local languages = {
 	"html",
 	"css",
 	"sql",
+	"sh",
+	"bash",
+	"zsh",
 }
 
 -- Filetype detection for PlantUML
