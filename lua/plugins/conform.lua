@@ -33,6 +33,8 @@ return {
 				rust = { "rustfmt" },
 				starlark = { "buildifier" },
 				yaml = { "prettier" },
+				make = { "mbake" },
+				makefile = { "mbake" },
 			},
 			formatters = {
 				-- NOTE: Below prettier is from npm install -g, further below comes from Mason
@@ -53,6 +55,16 @@ return {
 						"--stdin-filepath",
 						"$FILENAME",
 					},
+					stdin = true,
+				},
+				make = {
+					command = vim.fn.expand("$HOME/.local/share/nvim/mason/bin/mbake"),
+					args = { "--format", "-" },
+					stdin = true,
+				},
+				makefile = {
+					command = vim.fn.expand("$HOME/.local/share/nvim/mason/bin/mbake"),
+					args = { "--format", "-" },
 					stdin = true,
 				},
 				-- dart_format = {

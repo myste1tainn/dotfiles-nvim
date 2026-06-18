@@ -6,6 +6,8 @@ return {
 
 		lint.linters_by_ft = {
 			yaml = { "yamllint" },
+			make = { "mbake" },
+			makefile = { "mbake" },
 		}
 
 		-- Run linting on these events

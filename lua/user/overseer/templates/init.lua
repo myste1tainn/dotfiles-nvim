@@ -4,6 +4,7 @@ return vim.iter({
 	require("user.overseer.templates.dart"),
 	require("user.overseer.templates.rust"),
 	require("user.overseer.templates.podman"),
+	require("user.overseer.templates.make"),
 })
 	:flatten()
 	:totable()

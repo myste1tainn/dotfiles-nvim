@@ -10,11 +10,18 @@ return {
 			local overseer = require("overseer")
 			overseer.setup({
 				default_strategy = "jobstart",
+				-- Disable the builtin Makefile provider; replaced by
+				-- user.overseer.templates.make (custom parser + per-target params).
+				disable_template_modules = { "overseer.template.make" },
 				template_timeout = 5000, -- Timeout for template loading
 				task_list = {
-					bindings = {
-						["<C-q>"] = "Close",
-						["<C-c>"] = false,
+					keymaps = {
+						["<C-q>"] = { "<cmd>close<cr>", desc = "Close task list" },
+						["<C-c>"] = {
+							"keymap.run_action",
+							opts = { action = "open output in quickfix" },
+							desc = "Open task output in quickfix",
+						},
 					},
 				},
 			})

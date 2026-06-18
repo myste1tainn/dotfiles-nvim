@@ -53,6 +53,8 @@ local languages = {
 	"html",
 	"css",
 	"sql",
+	"make",
+	"makefile",
 	"sh",
 	"bash",
 	"zsh",
