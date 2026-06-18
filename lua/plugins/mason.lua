@@ -13,7 +13,8 @@ return {
 		-- Extract only the server names from the servers table
 		local servers = require("lsp.servers")
 		local server_names = {}
-		for _, server in pairs(servers) do
+		for _, entry in pairs(servers) do
+			local server = type(entry) == "string" and entry or entry.server
 			-- Change to the name that mason-lspconfig uses
 			if server == "dartls" or server == "plantuml_ls" then
 				goto continue

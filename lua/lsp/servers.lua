@@ -1,9 +1,11 @@
 return {
 	go = "gopls",
-	-- python = "pyright",
 	python = "basedpyright",
 	lua = "lua_ls",
-	javascript = "ts_ls",
+	javascript = {
+		server = "ts_ls",
+		filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+	},
 	ruby = "solargraph",
 	java = "jdtls",
 	groovy = "groovyls",

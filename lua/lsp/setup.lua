@@ -15,13 +15,19 @@ capabilities.inlayHint = { dynamicRegistration = false }
 -- Import the list of servers from mason configuration
 local mason_servers = require("lsp.servers")
 
+-- ft_to_server and server_to_config are both built from servers.lua entries.
+-- An entry is either a plain server name string (filetypes = { lang }) or a
+-- table { server = "...", filetypes = { ... } } for multi-filetype servers.
+local ft_to_server = {}
 local server_to_config = {}
--- TODO: Find a way to do this from within mason-lspconfig
--- Setup each language server
-for lang, server in pairs(mason_servers) do
+
+for lang, entry in pairs(mason_servers) do
 	if lang == "lua" then
 		require("neodev").setup()
 	end
+
+	local server = type(entry) == "string" and entry or entry.server
+	local filetypes = type(entry) == "string" and { lang } or entry.filetypes
 
 	local config = require("lsp." .. lang .. ".config")
 	config.settings = config.settings or {}
@@ -31,70 +37,38 @@ for lang, server in pairs(mason_servers) do
 		end
 	end
 	local final_config = vim.tbl_deep_extend("force", {
-		flags = {
-			debounce_text_changes = 400,
-		},
+		flags = { debounce_text_changes = 400 },
 		capabilities = capabilities,
 	}, config)
 
-	-- -- require("lspconfig")[server].setup(final_config)
-	-- if lang == "starlark" then
-	-- 	server = "tilt_ls"
-	-- 	-- Original value can be see in the servers.lua, but in my case
-	-- 	-- I just want to use it with tilt for now, not the whole starlark language
-	-- end
 	vim.lsp.config(server, final_config)
 	vim.lsp.enable(server)
 	server_to_config[server] = final_config
+
+	for _, ft in ipairs(filetypes) do
+		ft_to_server[ft] = server
+	end
 end
 
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(ev)
-		local exlude_filetypes = {
-			"markdown",
-			"text",
-			"gitcommit",
-			"notify",
-			"toggleterm",
-			"noice",
-			"TelescopeResults",
-			"TelescopePrompt",
-			"OverseerOutput",
-			"OverseerList",
-			"NeogitPopup",
-			"Avante",
-			"AvanteInput",
-			"AvanteTodos",
-			"AvanteSelectedFiles",
-			"NeogitCommitMessage",
-			"NeogitConsole",
-			"neo-tree",
-			"lazy",
-			"lazy_backdrop",
-			"cmp_docs",
-		}
-		if vim.tbl_contains(exlude_filetypes, vim.bo.filetype) then
+		local buf = ev.buf
+		local ft = vim.bo[buf].filetype
+
+		-- Any non-empty buftype (terminal, quickfix, nofile, prompt, …) means
+		-- this is a plugin/UI buffer — skip without inspecting the filetype.
+		if vim.bo[buf].buftype ~= "" then
 			return
 		end
 
-		local server = mason_servers[vim.bo.filetype]
+		local server = ft_to_server[ft]
 		if not server then
-			-- For the case that I know the filetype will not matched the server name in the mason_servers, I will hardcode the mapping here
-			if vim.bo.filetype == "typescript" then
-				server = mason_servers["javascript"]
-			elseif vim.bo.filetype == "javascriptreact" then
-				server = mason_servers["javascript"]
-			elseif vim.bo.filetype == "typescriptreact" then
-				server = mason_servers["javascript"]
-			else
-				print("No LSP server configured for filetype " .. vim.bo.filetype)
-				return
-			end
+			return
 		end
 
 		local final_config = server_to_config[server]
 		-- prevent duplicate attach
-		for _, client in ipairs(vim.lsp.get_clients({ bufnr = ev.buf })) do
+		for _, client in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
 			if client.name == server then
 				return
 			end
@@ -102,20 +76,14 @@ vim.api.nvim_create_autocmd("FileType", {
 
 		local root
 		if type(final_config.root_dir) == "function" then
-			root = final_config.root_dir(ev.buf)
+			root = final_config.root_dir(buf)
 		else
 			root = final_config.root_dir
 		end
 
 		if not root then
-			print("No root directory found for " .. server .. " in buffer " .. ev.buf)
-			return -- no root found, don't start
+			return
 		end
-
-		-- if vim.bo.filetype == "javascript" then
-		-- 	print("Starting LSP server " .. server .. " for filetype " .. vim.bo.filetype .. " in buffer " .. ev.buf)
-		-- 	print("Final config passed to lsp.start: " .. vim.inspect(final_config))
-		-- end
 
 		-- Pass the full registered config so per-language on_attach, settings,
 		-- before_init, capabilities, etc. are honored. Override name and root_dir
