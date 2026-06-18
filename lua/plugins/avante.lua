@@ -88,7 +88,7 @@ return {
 		end, { desc = "Avante Toggle" })
 		keymap("n", "<leader>aa", "<Esc><Cmd>AvanteAsk<CR>", { desc = "Avante Ask" })
 	end,
-	build = "make",
+	build = "make BUILD_FROM_SOURCE=true",
 	event = "VeryLazy",
 	version = false,
 	dependencies = {

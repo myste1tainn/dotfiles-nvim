@@ -1,5 +1,5 @@
 return {
-	cmd = { "vscode-json-language-server" },
+	cmd = { "vscode-json-language-server", "--stdio" },
 	on_attach = function(client, bufnr) end,
 	root_dir = function(bufnr)
 		local path = vim.api.nvim_buf_get_name(bufnr)
