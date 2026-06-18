@@ -125,6 +125,13 @@ return function(bufnr)
 	keymap({ "n", "v", "i" }, "<C-.>", qf.next, { desc = "Next Quickfix Item" })
 	keymap({ "n", "v", "i" }, "<C-,>", qf.prev, { desc = "Previous Quickfix Item" })
 
-	keymap({ "n", "v", "i" }, "<M-n>", dg.next, { desc = "Next diagnostics Item" })
-	keymap({ "n", "v", "i" }, "<M-p>", dg.prev, { desc = "Previous diagnostics Item" })
+	keymap({ "n", "v", "i" }, "<C-n>", function()
+		dg.next({ buf_only = true })
+	end, { desc = "Next In-file diagnostics Item" })
+	keymap({ "n", "v", "i" }, "<C-p>", function()
+		dg.prev({ buf_only = true })
+	end, { desc = "Previous In-fle diagnostics Item" })
+
+	keymap({ "n", "v", "i" }, "<M-n>", dg.next, { desc = "Next Global diagnostics Item" })
+	keymap({ "n", "v", "i" }, "<M-p>", dg.prev, { desc = "Previous Global diagnostics Item" })
 end
