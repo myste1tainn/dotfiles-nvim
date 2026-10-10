@@ -52,6 +52,8 @@ return {
 				prettier = {
 					command = "prettier",
 					args = {
+						"--print-width",
+						"120",
 						"--stdin-filepath",
 						"$FILENAME",
 					},

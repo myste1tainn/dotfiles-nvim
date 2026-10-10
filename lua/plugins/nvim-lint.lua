@@ -4,6 +4,16 @@ return {
 	config = function()
 		local lint = require("lint")
 
+		-- yamllint has no config file here, so it would otherwise use the
+		-- stock default preset (line-length max 80, severity error).
+		lint.linters.yamllint.args = {
+			"-d",
+			"{extends: default, rules: {line-length: {max: 120, allow-non-breakable-inline-mappings: true}}}",
+			"--format",
+			"parsable",
+			"-",
+		}
+
 		lint.linters_by_ft = {
 			yaml = { "yamllint" },
 			make = { "mbake" },
