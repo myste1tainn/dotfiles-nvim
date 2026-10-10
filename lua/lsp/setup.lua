@@ -50,48 +50,64 @@ for lang, entry in pairs(mason_servers) do
 	end
 end
 
+-- Attach the configured server for `buf`'s filetype, if there is one and it is
+-- not attached already.
+local function attach_server(buf)
+	if not vim.api.nvim_buf_is_valid(buf) then
+		return
+	end
+
+	-- Any non-empty buftype (terminal, quickfix, nofile, prompt, …) means
+	-- this is a plugin/UI buffer — skip without inspecting the filetype.
+	if vim.bo[buf].buftype ~= "" then
+		return
+	end
+
+	local server = ft_to_server[vim.bo[buf].filetype]
+	if not server then
+		return
+	end
+
+	local final_config = server_to_config[server]
+	-- prevent duplicate attach
+	for _, client in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
+		if client.name == server then
+			return
+		end
+	end
+
+	local root
+	if type(final_config.root_dir) == "function" then
+		root = final_config.root_dir(buf)
+	else
+		root = final_config.root_dir
+	end
+
+	if not root then
+		return
+	end
+
+	-- Pass the full registered config so per-language on_attach, settings,
+	-- before_init, capabilities, etc. are honored. Override name and root_dir
+	-- with values resolved here.
+	local start_config = vim.tbl_extend("force", final_config, {
+		name = server,
+		root_dir = root,
+	})
+	vim.lsp.start(start_config, { bufnr = buf })
+end
+
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(ev)
-		local buf = ev.buf
-		local ft = vim.bo[buf].filetype
-
-		-- Any non-empty buftype (terminal, quickfix, nofile, prompt, …) means
-		-- this is a plugin/UI buffer — skip without inspecting the filetype.
-		if vim.bo[buf].buftype ~= "" then
-			return
-		end
-
-		local server = ft_to_server[ft]
-		if not server then
-			return
-		end
-
-		local final_config = server_to_config[server]
-		-- prevent duplicate attach
-		for _, client in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
-			if client.name == server then
-				return
-			end
-		end
-
-		local root
-		if type(final_config.root_dir) == "function" then
-			root = final_config.root_dir(buf)
-		else
-			root = final_config.root_dir
-		end
-
-		if not root then
-			return
-		end
-
-		-- Pass the full registered config so per-language on_attach, settings,
-		-- before_init, capabilities, etc. are honored. Override name and root_dir
-		-- with values resolved here.
-		local start_config = vim.tbl_extend("force", final_config, {
-			name = server,
-			root_dir = root,
-		})
-		vim.lsp.start(start_config)
+		attach_server(ev.buf)
 	end,
 })
+
+-- This module is loaded lazily, so any buffer opened before it ran — the file
+-- nvim is started with, most notably — has already fired FileType and would
+-- never get a client. Attach those now.
+for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+	if vim.api.nvim_buf_is_loaded(buf) then
+		attach_server(buf)
+	end
+end

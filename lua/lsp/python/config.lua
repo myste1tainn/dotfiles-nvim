@@ -19,14 +19,31 @@ local function make_base_settings(python_bin)
 	local base = {
 		pythonPath = python_bin or "python",
 		analysis = {
-			reportMissingTypeStubs = false,
-			reportMissingImports = false,
-			reportMissingModuleSource = false,
 			typeCheckingMode = "recommended",
 			autoSearchPaths = true,
 			useLibraryCodeForTypes = true,
 			diagnosticMode = "workspace",
 			autoImportCompletions = true,
+			-- Rule severities are only read from diagnosticSeverityOverrides —
+			-- set directly on `analysis` they are silently ignored.
+			diagnosticSeverityOverrides = {
+				reportMissingTypeStubs = "none",
+				reportMissingModuleSource = "none",
+				reportMissingImports = "none",
+				-- "recommended" reports every type basedpyright had to infer as
+				-- Unknown. On untyped code (CloudBolt hooks, Django models) that
+				-- is 80+ diagnostics per file and buries the real ones.
+				reportUnknownMemberType = "none",
+				reportUnknownVariableType = "none",
+				reportUnknownArgumentType = "none",
+				reportUnknownParameterType = "none",
+				reportUnknownLambdaType = "none",
+				reportMissingParameterType = "none",
+				reportMissingTypeArgument = "none",
+				reportAny = "none",
+				reportExplicitAny = "none",
+				reportUnannotatedClassAttribute = "none",
+			},
 			inlayHints = {
 				variableTypes = true,
 				functionReturnTypes = true,
@@ -165,7 +182,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		local venv_python = local_venv_python(root_dir)
 		if venv_python then
+			vim.notify("venv detected: " .. venv_python, vim.log.levels.INFO)
 			restart_clients_with_python(root_dir, venv_python)
+			return
+		end
+
+		local dot_venv_python = root_dir .. "/.venv/bin/python"
+		if vim.fn.executable(dot_venv_python) == 1 then
+			vim.notify(".venv detected: " .. dot_venv_python, vim.log.levels.INFO)
+			restart_clients_with_python(root_dir, dot_venv_python)
 			return
 		end
 
