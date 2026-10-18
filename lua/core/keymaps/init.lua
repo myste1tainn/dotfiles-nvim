@@ -1,4 +1,7 @@
 -- Keymaps that should be avaible at all times
+-- option_alt first: it only forwards to <M-…> mappings, so it does not care
+-- whether they are registered yet.
+require("core.keymaps.option_alt")()
 require("core.keymaps.core")()
 require("core.keymaps.fzf-lua")()
 require("core.keymaps.nvim-spectre")()
