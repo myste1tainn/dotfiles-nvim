@@ -88,7 +88,11 @@ return {
 		end, { desc = "Avante Toggle" })
 		keymap("n", "<leader>aa", "<Esc><Cmd>AvanteAsk<CR>", { desc = "Avante Ask" })
 	end,
-	build = "make BUILD_FROM_SOURCE=true",
+	-- avante's own `make BUILD_FROM_SOURCE=true` is broken on macOS at some
+	-- commits (it copies .so, cargo emits .dylib), and a failed build leaves
+	-- stale native libs that make the kernel SIGKILL nvim on load. The script
+	-- tries the Makefile first and falls back to copying what cargo produced.
+	build = vim.fn.stdpath("config") .. "/scripts/avante-build.sh",
 	event = "VeryLazy",
 	version = false,
 	dependencies = {
