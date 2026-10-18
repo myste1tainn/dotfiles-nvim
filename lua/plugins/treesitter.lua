@@ -36,7 +36,12 @@
 -- 		},
 -- 	},
 -- }
-local languages = {
+-- Parser names to install. These are tree-sitter language names, which are not
+-- always the nvim filetype of the same thing: there is no "makefile" or "sh"
+-- parser ("make" and "bash" cover them). Listing those two made nvim-treesitter
+-- warn twice on every startup, and two messages are enough to raise the
+-- hit-enter prompt ("Press any key to continue") before the first keystroke.
+local parsers = {
 	"go",
 	"gomod",
 	"gotmpl",
@@ -54,11 +59,14 @@ local languages = {
 	"css",
 	"sql",
 	"make",
-	"makefile",
-	"sh",
 	"bash",
 	"zsh",
 }
+
+-- Filetypes that should start treesitter. These are nvim *filetypes*: shell
+-- scripts are ft=sh and Makefiles are ft=make, both highlighted by the parsers
+-- above, so they belong here rather than in the install list.
+local filetypes = { "sh", "makefile", unpack(parsers) }
 
 -- Filetype detection for PlantUML
 vim.filetype.add({
@@ -76,7 +84,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"go.sum",
 		"go.mod",
 		"gotmpl",
-		unpack(languages),
+		unpack(filetypes),
 	},
 	callback = function()
 		vim.treesitter.start()
@@ -100,7 +108,7 @@ return {
 					enable = true,
 				},
 			})
-			ts.install(languages)
+			ts.install(parsers)
 		end,
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
